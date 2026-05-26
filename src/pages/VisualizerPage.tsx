@@ -5,28 +5,22 @@ import { ArrowLeft } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { Panel } from '@/components/ui/Panel';
 import { CodePanel } from '@/features/visualizer/CodePanel';
-import { DatasetControls } from '@/features/visualizer/DatasetControls';
 import { InfoPanel } from '@/features/visualizer/InfoPanel';
-import { Legend } from '@/features/visualizer/Legend';
 import { MetricsBar } from '@/features/visualizer/MetricsBar';
 import { PlaybackControls } from '@/features/visualizer/PlaybackControls';
 import { TimelineScrubber } from '@/features/visualizer/TimelineScrubber';
 import { usePlaybackEngine } from '@/hooks/usePlaybackEngine';
 import { usePlaybackStore } from '@/store/playbackStore';
 import { allModules, getModuleById } from '@/visualizers/registry';
-import { randomArray } from '@/visualizers/sorting/types';
 import { EMPTY_METRICS } from '@/core/timeline/types';
 import { NotFoundPage } from './NotFoundPage';
 import { cn } from '@/utils/cn';
-
-const MIN_SIZE = 6;
-const MAX_SIZE = 40;
 
 export const VisualizerPage = () => {
   const { id } = useParams<{ id: string }>();
   const visual = id ? getModuleById(id) : undefined;
 
-  const [input, setInput] = useState<number[]>([]);
+  const [input, setInput] = useState<unknown>(null);
   const index = usePlaybackStore((state) => state.index);
   const loadTimeline = usePlaybackStore((state) => state.loadTimeline);
 
@@ -37,7 +31,7 @@ export const VisualizerPage = () => {
   }, [visual]);
 
   const timeline = useMemo(() => {
-    if (!visual || input.length === 0) return null;
+    if (!visual || input === null) return null;
     return visual.algorithm.generate(input);
   }, [visual, input]);
 
@@ -47,13 +41,12 @@ export const VisualizerPage = () => {
 
   if (!visual) return <NotFoundPage />;
 
-  const { algorithm, Renderer } = visual;
+  const { algorithm, Renderer, Controls, Legend } = visual;
   const frames = timeline?.frames ?? [];
   const safeIndex = Math.min(index, Math.max(frames.length - 1, 0));
   const frame = frames[safeIndex] ?? null;
   const previous = safeIndex > 0 ? (frames[safeIndex - 1] ?? null) : null;
   const metrics = frame?.metrics ?? EMPTY_METRICS;
-  const size = input.length;
 
   return (
     <div className="flex flex-col gap-6">
@@ -126,28 +119,25 @@ export const VisualizerPage = () => {
           <Panel className="flex flex-col gap-4 p-5">
             <TimelineScrubber />
             <PlaybackControls />
-            <div className="border-t border-white/5 pt-4">
-              <Legend />
-            </div>
+            {Legend && (
+              <div className="border-t border-white/5 pt-4">
+                <Legend />
+              </div>
+            )}
           </Panel>
 
-          <MetricsBar metrics={metrics} />
+          <MetricsBar metrics={metrics} labels={algorithm.metricLabels} />
         </div>
 
         <div className="flex flex-col gap-5">
-          <Panel className="flex flex-col gap-4 p-5">
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-haze">
-              Dataset
-            </h3>
-            <DatasetControls
-              size={size}
-              minSize={MIN_SIZE}
-              maxSize={MAX_SIZE}
-              onSizeChange={(next) => setInput(randomArray(next))}
-              onShuffle={() => setInput(randomArray(size))}
-              onCustom={(values) => setInput(values)}
-            />
-          </Panel>
+          {Controls && (
+            <Panel className="flex flex-col gap-4 p-5">
+              <h3 className="text-xs font-semibold uppercase tracking-wide text-haze">
+                Setup
+              </h3>
+              <Controls input={input} onChange={setInput} />
+            </Panel>
+          )}
 
           <Panel className="flex flex-col gap-3 p-5">
             <h3 className="text-xs font-semibold uppercase tracking-wide text-haze">

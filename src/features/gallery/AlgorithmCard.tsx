@@ -3,10 +3,9 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import type { AlgorithmModule } from '@/core/engine/types';
-import type { SortState } from '@/visualizers/sorting/types';
 
 interface AlgorithmCardProps {
-  algorithm: AlgorithmModule<SortState, number[]>;
+  algorithm: AlgorithmModule<unknown, unknown>;
   index: number;
 }
 

@@ -6,6 +6,58 @@ contributors inherit the reasoning, not just the result.
 
 ---
 
+## Entry 02 — Breadth (more sorts), comparison mode, and the second state shape
+
+Three things landed: four more sorting algorithms, a side-by-side comparison
+mode, and graph traversal (BFS/DFS) — the last of which forced the registry to
+grow up.
+
+### More sorting (cheap, by design)
+
+Adding Merge, Heap, Insertion, and Selection sort was one file + one registry
+line each, exactly as the module contract promised. Merge sort writes values
+back rather than swapping, so it introduced a new **`write` tone** (amber) — a
+reminder that the visual vocabulary should grow with the algorithms, not be
+frozen up front. A color legend now makes the tones self-documenting.
+
+### Comparison mode — the honest race
+
+The key decision: two algorithms share **one dataset and one playback clock**,
+but each lane renders the frame at `min(index, itsOwnLastFrame)`. The faster
+algorithm visibly finishes and waits while the slower one grinds on. I rejected
+normalizing the two timelines to equal length — that would hide the very thing
+we're trying to teach (how many more operations the slower one performs). The
+gap you see is the gap that matters.
+
+### Generalizing the registry (the real work)
+
+Sorting bars and graph nodes are different `TState` shapes, so a single typed
+list couldn't hold both without either `any` (banned by our lint rules) or a
+type-erasure boundary. I chose a controlled boundary: `defineModule()` performs
+exactly one `as unknown as` cast, turning a fully-typed `VisualModule<S, I>`
+into an `AnyVisualModule`. It's sound because the same module supplies both the
+`generate` that produces `Frame<S>` and the `Renderer` that consumes it — they
+can't desync.
+
+The bigger move: **modules now own their UI surface**. `VisualModule` gained
+optional `Controls`, `Legend`, and `metricLabels`. The result is that
+`VisualizerPage` contains **zero** knowledge of sorting or graphs — it renders
+whatever the module hands it. Sorting brings a bar renderer + size/shuffle
+controls; graphs bring an SVG node renderer + start-node picker + "edges
+checked / nodes visited" metric labels. Adding a category no longer touches the
+page. This is the moment the "engine" earned its name.
+
+### Graph rendering choice
+
+I rendered graphs with **plain SVG + Framer Motion**, not React Flow or D3.
+React Flow is built for interactive node editors (dragging, connecting) — we
+need deterministic, animated *playback*, which is exactly what the frame model
+already gives us. Hand-rolled SVG keeps the bundle lean and the animation under
+the same spring system as the bars. React Flow stays on the table for a future
+interactive graph *builder*, where its strengths actually apply.
+
+---
+
 ## Entry 01 — Foundations & the first vertical slice
 
 **Goal of this pass:** ship a real, runnable, deployable slice rather than a

@@ -23,6 +23,12 @@ export interface AlgorithmInfo {
   realWorld: string[];
 }
 
+export interface MetricLabels {
+  comparisons: string;
+  swaps: string;
+  accesses: string;
+}
+
 export interface AlgorithmModule<TState, TInput> {
   id: string;
   name: string;
@@ -31,6 +37,7 @@ export interface AlgorithmModule<TState, TInput> {
   accent: string;
   sourceCode: string;
   info: AlgorithmInfo;
+  metricLabels?: MetricLabels;
   createDefaultInput: () => TInput;
   generate: (input: TInput) => Timeline<TState>;
 }
@@ -40,7 +47,20 @@ export interface RendererProps<TState> {
   previous: Frame<TState> | null;
 }
 
+export interface ControlsProps<TInput> {
+  input: TInput;
+  onChange: (input: TInput) => void;
+}
+
 export interface VisualModule<TState, TInput> {
   algorithm: AlgorithmModule<TState, TInput>;
   Renderer: ComponentType<RendererProps<TState>>;
+  Controls?: ComponentType<ControlsProps<TInput>>;
+  Legend?: ComponentType;
 }
+
+export type AnyVisualModule = VisualModule<unknown, unknown>;
+
+export const defineModule = <TState, TInput>(
+  module: VisualModule<TState, TInput>
+): AnyVisualModule => module as unknown as AnyVisualModule;

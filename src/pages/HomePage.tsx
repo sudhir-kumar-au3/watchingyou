@@ -3,6 +3,16 @@ import { Sparkles, Swords } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { AlgorithmCard } from '@/features/gallery/AlgorithmCard';
 import { allModules } from '@/visualizers/registry';
+import type { AlgorithmCategory } from '@/core/engine/types';
+
+const CATEGORIES: { key: AlgorithmCategory; title: string }[] = [
+  { key: 'sorting', title: 'Sorting' },
+  { key: 'graph', title: 'Graphs' },
+  { key: 'searching', title: 'Searching' },
+  { key: 'dp', title: 'Dynamic Programming' },
+  { key: 'tree', title: 'Trees' },
+  { key: 'backtracking', title: 'Backtracking' },
+];
 
 export const HomePage = () => (
   <div className="flex flex-col gap-12">
@@ -55,24 +65,32 @@ export const HomePage = () => (
       </motion.div>
     </section>
 
-    <section className="flex flex-col gap-5">
-      <div className="flex items-baseline justify-between">
-        <h2 className="font-display text-2xl font-semibold text-mist">
-          Sorting
-        </h2>
-        <span className="font-mono text-xs text-haze">
-          {allModules.length} visualizers
-        </span>
-      </div>
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {allModules.map((module, index) => (
-          <AlgorithmCard
-            key={module.algorithm.id}
-            algorithm={module.algorithm}
-            index={index}
-          />
-        ))}
-      </div>
-    </section>
+    {CATEGORIES.map(({ key, title }) => {
+      const modules = allModules.filter(
+        (module) => module.algorithm.category === key
+      );
+      if (modules.length === 0) return null;
+      return (
+        <section key={key} className="flex flex-col gap-5">
+          <div className="flex items-baseline justify-between">
+            <h2 className="font-display text-2xl font-semibold text-mist">
+              {title}
+            </h2>
+            <span className="font-mono text-xs text-haze">
+              {modules.length} visualizers
+            </span>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {modules.map((module, index) => (
+              <AlgorithmCard
+                key={module.algorithm.id}
+                algorithm={module.algorithm}
+                index={index}
+              />
+            ))}
+          </div>
+        </section>
+      );
+    })}
   </div>
 );
