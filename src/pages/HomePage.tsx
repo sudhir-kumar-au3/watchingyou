@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Swords } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { AlgorithmCard } from '@/features/gallery/AlgorithmCard';
 import { allModules } from '@/visualizers/registry';
 
@@ -38,6 +39,20 @@ export const HomePage = () => (
         transition. Scrub the timeline, change the speed, and explore the
         mechanics behind each algorithm.
       </motion.p>
+
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.18 }}
+      >
+        <Link
+          to="/compare"
+          className="inline-flex items-center gap-2 rounded-xl bg-cyan px-5 py-3 font-medium text-void shadow-glow transition hover:brightness-110 active:scale-95"
+        >
+          <Swords size={18} />
+          Race two algorithms
+        </Link>
+      </motion.div>
     </section>
 
     <section className="flex flex-col gap-5">

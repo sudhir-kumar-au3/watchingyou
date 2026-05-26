@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
-import { Github } from 'lucide-react';
+import { Github, Swords } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
+import { cn } from '@/utils/cn';
 import { Brand } from './Brand';
 
 interface AppLayoutProps {
@@ -11,15 +13,31 @@ export const AppLayout = ({ children }: AppLayoutProps) => (
     <header className="sticky top-0 z-30 border-b border-white/5 bg-void/60 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-[1400px] items-center justify-between px-5 py-3.5">
         <Brand />
-        <a
-          href="https://github.com/sudhir-kumar-au3/watchingyou"
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-xl glass px-3.5 py-2 text-sm text-haze transition hover:text-cyan"
-        >
-          <Github size={16} />
-          <span className="hidden sm:inline">Source</span>
-        </a>
+        <nav className="flex items-center gap-2">
+          <NavLink
+            to="/compare"
+            className={({ isActive }) =>
+              cn(
+                'inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm transition',
+                isActive
+                  ? 'bg-cyan/15 text-cyan'
+                  : 'glass text-haze hover:text-cyan'
+              )
+            }
+          >
+            <Swords size={16} />
+            <span className="hidden sm:inline">Compare</span>
+          </NavLink>
+          <a
+            href="https://github.com/sudhir-kumar-au3/watchingyou"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-xl glass px-3.5 py-2 text-sm text-haze transition hover:text-cyan"
+          >
+            <Github size={16} />
+            <span className="hidden sm:inline">Source</span>
+          </a>
+        </nav>
       </div>
     </header>
 
