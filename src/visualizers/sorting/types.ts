@@ -2,6 +2,7 @@ export interface SortState {
   array: number[];
   comparing: number[];
   swapping: number[];
+  writing: number[];
   sorted: number[];
   pivot: number | null;
   range: [number, number] | null;
@@ -15,6 +16,7 @@ export const createSortState = (
   array,
   comparing: [],
   swapping: [],
+  writing: [],
   sorted: [],
   pivot: null,
   range: null,

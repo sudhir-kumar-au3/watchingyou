@@ -5,6 +5,7 @@ import type { SortState } from './types';
 
 const resolveTone = (state: SortState, index: number): BarTone => {
   if (state.swapping.includes(index)) return 'swap';
+  if (state.writing.includes(index)) return 'write';
   if (state.comparing.includes(index)) return 'compare';
   if (state.pivot === index) return 'pivot';
   if (state.sorted.includes(index)) return 'sorted';

@@ -7,6 +7,7 @@ import { Panel } from '@/components/ui/Panel';
 import { CodePanel } from '@/features/visualizer/CodePanel';
 import { DatasetControls } from '@/features/visualizer/DatasetControls';
 import { InfoPanel } from '@/features/visualizer/InfoPanel';
+import { Legend } from '@/features/visualizer/Legend';
 import { MetricsBar } from '@/features/visualizer/MetricsBar';
 import { PlaybackControls } from '@/features/visualizer/PlaybackControls';
 import { TimelineScrubber } from '@/features/visualizer/TimelineScrubber';
@@ -125,6 +126,9 @@ export const VisualizerPage = () => {
           <Panel className="flex flex-col gap-4 p-5">
             <TimelineScrubber />
             <PlaybackControls />
+            <div className="border-t border-white/5 pt-4">
+              <Legend />
+            </div>
           </Panel>
 
           <MetricsBar metrics={metrics} />
