@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import Editor from '@monaco-editor/react';
-import { AlertTriangle, Play, Shuffle } from 'lucide-react';
+import { AlertTriangle, Info, Play, RotateCcw, Shuffle } from 'lucide-react';
 import { Panel } from '@/components/ui/Panel';
 import { Legend } from '@/features/visualizer/Legend';
 import { MetricsBar } from '@/features/visualizer/MetricsBar';
@@ -31,19 +31,23 @@ export const PlaygroundPage = () => {
   const [input, setInput] = useState<number[]>(() => randomArray(14));
   const [timeline, setTimeline] = useState<Timeline<SortState> | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [note, setNote] = useState<string | null>(null);
 
   const index = usePlaybackStore((state) => state.index);
   const loadTimeline = usePlaybackStore((state) => state.loadTimeline);
+  const play = usePlaybackStore((state) => state.play);
   usePlaybackEngine();
 
   const run = useCallback(() => {
     const result = runUserSort(code, input);
     setError(result.error);
+    setNote(result.note);
     setTimeline(result.timeline);
     if (result.timeline) {
       loadTimeline(result.timeline.frames.length);
+      play();
     }
-  }, [code, input, loadTimeline]);
+  }, [code, input, loadTimeline, play]);
 
   useEffect(() => {
     run();
@@ -104,6 +108,14 @@ export const PlaygroundPage = () => {
               <Shuffle size={15} />
               New data
             </button>
+            <button
+              type="button"
+              onClick={() => setCode(STARTER_CODE)}
+              className="inline-flex items-center gap-2 rounded-xl glass px-4 py-2.5 text-sm text-mist transition hover:border-cyan/50 hover:text-cyan active:scale-95"
+            >
+              <RotateCcw size={15} />
+              Load example
+            </button>
             <span className="font-mono text-xs text-haze">
               runs in your browser · 12k-op safety limit
             </span>
@@ -118,6 +130,13 @@ export const PlaygroundPage = () => {
                 </span>
                 <span className="font-mono text-xs text-haze">{error}</span>
               </div>
+            </Panel>
+          )}
+
+          {!error && note && (
+            <Panel className="flex items-start gap-3 border-amber/30 p-4">
+              <Info size={18} className="mt-0.5 shrink-0 text-amber" />
+              <span className="text-xs text-haze">{note}</span>
             </Panel>
           )}
         </div>
