@@ -1,0 +1,15 @@
+import { Route, Routes } from 'react-router-dom';
+import { AppLayout } from './AppLayout';
+import { HomePage } from '@/pages/HomePage';
+import { VisualizerPage } from '@/pages/VisualizerPage';
+import { NotFoundPage } from '@/pages/NotFoundPage';
+
+export const App = () => (
+  <AppLayout>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/algorithm/:id" element={<VisualizerPage />} />
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  </AppLayout>
+);
