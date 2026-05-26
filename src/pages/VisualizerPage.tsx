@@ -20,15 +20,31 @@ export const VisualizerPage = () => {
   const { id } = useParams<{ id: string }>();
   const visual = id ? getModuleById(id) : undefined;
 
-  const [input, setInput] = useState<unknown>(null);
+  const [session, setSession] = useState<{ id: string; input: unknown } | null>(
+    null
+  );
   const index = usePlaybackStore((state) => state.index);
   const loadTimeline = usePlaybackStore((state) => state.loadTimeline);
 
   usePlaybackEngine();
 
   useEffect(() => {
-    if (visual) setInput(visual.algorithm.createDefaultInput());
+    if (visual) {
+      setSession({
+        id: visual.algorithm.id,
+        input: visual.algorithm.createDefaultInput(),
+      });
+    }
   }, [visual]);
+
+  const input =
+    visual && session && session.id === visual.algorithm.id
+      ? session.input
+      : null;
+
+  const setInput = (next: unknown): void => {
+    if (visual) setSession({ id: visual.algorithm.id, input: next });
+  };
 
   const timeline = useMemo(() => {
     if (!visual || input === null) return null;
@@ -130,7 +146,7 @@ export const VisualizerPage = () => {
         </div>
 
         <div className="flex flex-col gap-5">
-          {Controls && (
+          {Controls && input !== null && (
             <Panel className="flex flex-col gap-4 p-5">
               <h3 className="text-xs font-semibold uppercase tracking-wide text-haze">
                 Setup
