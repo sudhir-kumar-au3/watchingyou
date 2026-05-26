@@ -18,31 +18,34 @@ export const SortingRenderer = ({ frame }: RendererProps<SortState>) => {
   const showLabels = array.length <= 28;
 
   return (
-    <div className="flex h-full w-full items-end justify-center gap-[3px] px-2 pb-2">
+    <div className="flex h-full w-full items-stretch justify-center gap-[3px] px-2 pb-1">
       {array.map((value, index) => {
         const tone = resolveTone(frame.state, index);
         return (
-          <motion.div
+          <div
             key={index}
-            layout
-            className="relative flex flex-1 flex-col items-center justify-end"
+            className="flex h-full flex-1 flex-col items-center"
             style={{ maxWidth: 56 }}
           >
-            <motion.div
-              className="w-full rounded-t-md"
-              animate={{
-                height: `${(value / max) * 100}%`,
-                backgroundColor: TONE_COLOR[tone],
-                boxShadow: `0 0 16px ${TONE_GLOW[tone]}`,
-              }}
-              transition={{ type: 'spring', stiffness: 320, damping: 26 }}
-            />
+            <div className="flex w-full flex-1 items-end overflow-hidden">
+              <motion.div
+                className="w-full rounded-t-md"
+                style={{ minHeight: 3 }}
+                initial={false}
+                animate={{
+                  height: `${(value / max) * 100}%`,
+                  backgroundColor: TONE_COLOR[tone],
+                  boxShadow: `0 0 16px ${TONE_GLOW[tone]}`,
+                }}
+                transition={{ type: 'spring', stiffness: 320, damping: 26 }}
+              />
+            </div>
             {showLabels && (
-              <span className="mt-1.5 font-mono text-[10px] text-haze">
+              <span className="mt-1.5 shrink-0 font-mono text-[10px] text-haze">
                 {value}
               </span>
             )}
-          </motion.div>
+          </div>
         );
       })}
     </div>
