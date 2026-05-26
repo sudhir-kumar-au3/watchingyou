@@ -11,10 +11,16 @@ the source code and complexity profile stay in sync with every frame.
 
 ## Status
 
-First vertical slice is live: a complete sorting visualizer (**Bubble Sort** and
-**Quick Sort**) with full playback, dataset controls, synchronized code
-highlighting, live metrics, and an educational panel. Built as the foundation
-for the broader platform described in the project requirements.
+Live and growing:
+
+- **Six sorting visualizers** — Bubble, Quick, Merge, Heap, Insertion, Selection
+  — with synchronized source highlighting, live metrics, and complexity panels
+- **Two graph traversals** — BFS and DFS — on an animated SVG graph
+- **Comparison mode** — race two algorithms on one dataset and one clock
+- **Code playground** — write your own `sort`, run it sandboxed, and watch every
+  array read and write animate frame by frame
+- Full deterministic, reversible playback (play/pause/step/scrub/speed)
+  everywhere
 
 ## Tech
 

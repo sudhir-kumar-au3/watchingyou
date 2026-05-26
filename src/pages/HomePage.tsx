@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Sparkles, Swords } from 'lucide-react';
+import { Code2, Sparkles, Swords } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { AlgorithmCard } from '@/features/gallery/AlgorithmCard';
 import { allModules } from '@/visualizers/registry';
@@ -54,10 +54,18 @@ export const HomePage = () => (
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.18 }}
+        className="flex flex-wrap items-center justify-center gap-3"
       >
         <Link
-          to="/compare"
+          to="/playground"
           className="inline-flex items-center gap-2 rounded-xl bg-cyan px-5 py-3 font-medium text-void shadow-glow transition hover:brightness-110 active:scale-95"
+        >
+          <Code2 size={18} />
+          Visualize your own code
+        </Link>
+        <Link
+          to="/compare"
+          className="inline-flex items-center gap-2 rounded-xl glass px-5 py-3 font-medium text-mist transition hover:border-cyan/50 hover:text-cyan active:scale-95"
         >
           <Swords size={18} />
           Race two algorithms

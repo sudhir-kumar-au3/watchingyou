@@ -6,6 +6,49 @@ contributors inherit the reasoning, not just the result.
 
 ---
 
+## Entry 03 — Visualizing the user's own code
+
+The Phase 2 flagship: paste a function, watch it run. The hard part is turning
+arbitrary code into a frame timeline without building a full interpreter.
+
+### The instrumentation decision
+
+I considered an AST transform (parse → inject trace calls → regenerate source).
+It's powerful but heavy: it needs a code generator, careful scope handling, and
+TDZ-safe variable snapshots — a lot of surface area to get subtly wrong.
+
+Instead I chose a **Proxy-wrapped array**. The user writes `sort(arr)`; we hand
+them a `Proxy` over the real array whose `get` trap records a *read* (a
+comparison) and whose `set` trap records a *write* (a mutation). Every trap
+emits a frame into the **same `Timeline<SortState>`** the built-in sorts use —
+so the playground reuses the entire existing renderer, scrubber, playback, and
+metrics stack with zero new visualization code. The instrumentation is the data
+structure, not the source.
+
+The trade-off, stated honestly: we capture array *operations*, not arbitrary
+statements, and we don't highlight source lines (the Proxy can't see them). For
+the sorting domain that's exactly the right granularity, and it generalizes
+later to any structure we can wrap in a Proxy.
+
+### Safety
+
+Client-side execution of the user's own code in their own browser is low-risk,
+but the PRD calls for real protection. I implemented a deterministic
+**operation-count cap** (12k ops) that throws before any infinite loop can hang
+the tab, plus try/catch surfacing errors in the UI. Verified directly: bubble
+sort traces and sorts correctly, `while(true)` is cut off at the cap, and a
+missing `sort` function reports a clear message. True isolation via a **Web
+Worker** (with `terminate()` as a hard timeout) is the documented next step —
+the op-cap covers the common failure mode today.
+
+### Editor
+
+Monaco via `@monaco-editor/react`, which lazy-loads the editor from a CDN at
+runtime. The production bundle grew only ~6 KB gzipped — the heavy editor never
+touches our initial load and still works on GitHub Pages.
+
+---
+
 ## Entry 02 — Breadth (more sorts), comparison mode, and the second state shape
 
 Three things landed: four more sorting algorithms, a side-by-side comparison
