@@ -6,6 +6,55 @@ contributors inherit the reasoning, not just the result.
 
 ---
 
+## Entry 04 — A real step-through interpreter
+
+The Proxy-array playground (Entry 03) could only "see" one array. A user
+rightly asked whether it visualizes *any* code — it didn't. So this entry
+replaces it with a genuine **tree-walking JavaScript interpreter** that executes
+arbitrary code statement by statement.
+
+### Why an interpreter, not instrumentation
+
+To watch *any* code — variables, recursion, the call stack, control flow — you
+need to be inside execution, not observing a side channel. I built a recursive
+evaluator over acorn's AST that emits a `ProgramState` frame at each statement:
+current line, every variable in the live scope chain (with the just-changed one
+flagged), the call stack with recursion depth, and console output. It reuses the
+exact same `Timeline` + playback machinery as the sorting bars — the engine
+abstraction paying off a fourth time.
+
+Supported: declarations, all the operators, if/else, for/while/do-while/for-of,
+functions, arrow functions, **recursion and closures**, arrays/objects, member
+calls (native methods like `arr.push` and `Math.*` just work because values are
+real JS values), `break`/`continue`/`return`, template literals, and
+`console.log`.
+
+### Test-first, because an interpreter must be correct
+
+This is the one place where "looks right" isn't enough. I wrote **18 Vitest
+cases first** (red), then implemented until green: arithmetic, accumulation
+loops, `while`, `break`/`continue`, user functions, **factorial and fibonacci
+recursion**, closures, arrow functions, array mutation + a full in-interpreter
+bubble sort, objects, and all three safety paths. One failure caught a bug — in
+my *test* (I'd miscounted a break/continue sum), which is exactly the kind of
+thing tests are for. `npm test` now guards the interpreter on every change.
+
+### Safety
+
+A deterministic step cap (15k) ticks on every statement *and* every loop
+iteration, so an empty `while(true){}` is caught at the loop head; plus a
+call-depth cap for runaway recursion, an output cap, and structured error
+reporting (runtime + syntax) surfaced in the UI instead of crashing.
+
+### Honesty note
+
+This still runs via `new Function`-free evaluation of a JS *subset* — it covers
+the common teaching constructs above, not the entire language (no
+try/catch/classes/generators/destructuring yet). That's a deliberate, stated
+boundary, and the architecture leaves room to grow it.
+
+---
+
 ## Entry 03 — Visualizing the user's own code
 
 The Phase 2 flagship: paste a function, watch it run. The hard part is turning

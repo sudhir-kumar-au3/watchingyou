@@ -61,7 +61,7 @@ export const HomePage = () => (
           className="inline-flex items-center gap-2 rounded-xl bg-cyan px-5 py-3 font-medium text-void shadow-glow transition hover:brightness-110 active:scale-95"
         >
           <Code2 size={18} />
-          Visualize your own code
+          Step through your code
         </Link>
         <Link
           to="/compare"

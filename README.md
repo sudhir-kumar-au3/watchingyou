@@ -17,10 +17,13 @@ Live and growing:
   — with synchronized source highlighting, live metrics, and complexity panels
 - **Two graph traversals** — BFS and DFS — on an animated SVG graph
 - **Comparison mode** — race two algorithms on one dataset and one clock
-- **Code playground** — write your own `sort`, run it sandboxed, and watch every
-  array read and write animate frame by frame
+- **Code playground** — a real step-through JavaScript interpreter: write
+  arbitrary JS and watch variables, arrays, the call stack, recursion depth, and
+  console output update live as the highlighted line executes
 - Full deterministic, reversible playback (play/pause/step/scrub/speed)
   everywhere
+
+Run `npm test` for the interpreter's Vitest suite.
 
 ## Tech
 
