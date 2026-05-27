@@ -25,6 +25,13 @@ import { bstModule } from './trees/bst';
 import { TreeRenderer } from './trees/TreeRenderer';
 import { TreeControls } from './trees/TreeControls';
 import { TreeLegend } from './trees/TreeLegend';
+import { lcsModule } from './dp/lcs';
+import { editDistanceModule } from './dp/editDistance';
+import { knapsackModule } from './dp/knapsack';
+import { DpRenderer } from './dp/DpRenderer';
+import { DpLegend } from './dp/DpLegend';
+import { StringPairControls } from './dp/StringPairControls';
+import { KnapsackControls } from './dp/KnapsackControls';
 import { Legend } from '@/features/visualizer/Legend';
 
 export type SortVisualModule = VisualModule<SortState, number[]>;
@@ -72,11 +79,33 @@ const treeModules: AnyVisualModule[] = [bstModule].map((algorithm) =>
   })
 );
 
+const dpModules: AnyVisualModule[] = [
+  defineModule({
+    algorithm: lcsModule,
+    Renderer: DpRenderer,
+    Controls: StringPairControls,
+    Legend: DpLegend,
+  }),
+  defineModule({
+    algorithm: editDistanceModule,
+    Renderer: DpRenderer,
+    Controls: StringPairControls,
+    Legend: DpLegend,
+  }),
+  defineModule({
+    algorithm: knapsackModule,
+    Renderer: DpRenderer,
+    Controls: KnapsackControls,
+    Legend: DpLegend,
+  }),
+];
+
 export const allModules: AnyVisualModule[] = [
   ...sortingModules.map(defineModule),
   ...traversalModules,
   ...pathfindingModules,
   ...treeModules,
+  ...dpModules,
 ];
 
 export const getModuleById = (id: string): AnyVisualModule | undefined =>
