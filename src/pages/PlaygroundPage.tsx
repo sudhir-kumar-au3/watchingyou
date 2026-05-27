@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Editor from '@monaco-editor/react';
-import { AlertTriangle, Play, RotateCcw } from 'lucide-react';
+import { AlertTriangle, Check, Play, RotateCcw, Share2 } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Panel } from '@/components/ui/Panel';
 import { CodePanel } from '@/features/visualizer/CodePanel';
@@ -13,6 +14,7 @@ import type { Timeline } from '@/core/timeline/types';
 import type { ProgramState } from '@/core/interpreter/types';
 import { createProgramState } from '@/core/interpreter/types';
 import { CodeStateRenderer } from '@/visualizers/code/CodeStateRenderer';
+import { copyText, decodeState, encodeState } from '@/utils/share';
 
 const STARTER_CODE = `function bubbleSort(arr) {
   for (let i = 0; i < arr.length; i++) {
@@ -32,9 +34,22 @@ let sorted = bubbleSort(data);
 console.log("sorted:", sorted);`;
 
 export const PlaygroundPage = () => {
-  const [code, setCode] = useState(STARTER_CODE);
+  const [searchParams] = useSearchParams();
+  const [code, setCode] = useState(
+    () => decodeState<string>(searchParams.get('c')) ?? STARTER_CODE
+  );
   const [timeline, setTimeline] = useState<Timeline<ProgramState> | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  const share = async (): Promise<void> => {
+    const base = window.location.href.split('#')[0];
+    const url = `${base}#/playground?c=${encodeState(code)}`;
+    if (await copyText(url)) {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1600);
+    }
+  };
 
   const index = usePlaybackStore((state) => state.index);
   const loadTimeline = usePlaybackStore((state) => state.loadTimeline);
@@ -109,6 +124,14 @@ export const PlaygroundPage = () => {
             >
               <RotateCcw size={15} />
               Load example
+            </button>
+            <button
+              type="button"
+              onClick={share}
+              className="inline-flex items-center gap-2 rounded-xl glass px-4 py-2.5 text-sm text-mist transition hover:border-cyan/50 hover:text-cyan active:scale-95"
+            >
+              {copied ? <Check size={15} /> : <Share2 size={15} />}
+              {copied ? 'Copied!' : 'Share'}
             </button>
             <span className="font-mono text-xs text-haze">
               runs in your browser · 15k-step safety limit

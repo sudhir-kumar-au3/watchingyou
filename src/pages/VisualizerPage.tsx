@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Check, Share2 } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { Panel } from '@/components/ui/Panel';
 import { CodePanel } from '@/features/visualizer/CodePanel';
@@ -15,27 +15,34 @@ import { allModules, getModuleById } from '@/visualizers/registry';
 import { EMPTY_METRICS } from '@/core/timeline/types';
 import { NotFoundPage } from './NotFoundPage';
 import { cn } from '@/utils/cn';
+import { copyText, decodeState, encodeState } from '@/utils/share';
 
 export const VisualizerPage = () => {
   const { id } = useParams<{ id: string }>();
   const visual = id ? getModuleById(id) : undefined;
 
+  const [searchParams] = useSearchParams();
   const [session, setSession] = useState<{ id: string; input: unknown } | null>(
     null
   );
+  const [copied, setCopied] = useState(false);
+  const pendingStep = useRef<number | null>(null);
   const index = usePlaybackStore((state) => state.index);
   const loadTimeline = usePlaybackStore((state) => state.loadTimeline);
+  const seek = usePlaybackStore((state) => state.seek);
 
   usePlaybackEngine();
 
   useEffect(() => {
-    if (visual) {
-      setSession({
-        id: visual.algorithm.id,
-        input: visual.algorithm.createDefaultInput(),
-      });
-    }
-  }, [visual]);
+    if (!visual) return;
+    const shared = decodeState<unknown>(searchParams.get('d'));
+    const stepParam = searchParams.get('i');
+    pendingStep.current = stepParam !== null ? Number(stepParam) : null;
+    setSession({
+      id: visual.algorithm.id,
+      input: shared ?? visual.algorithm.createDefaultInput(),
+    });
+  }, [visual, searchParams]);
 
   const input =
     visual && session && session.id === visual.algorithm.id
@@ -54,6 +61,24 @@ export const VisualizerPage = () => {
   useEffect(() => {
     if (timeline) loadTimeline(timeline.frames.length);
   }, [timeline, loadTimeline]);
+
+  useEffect(() => {
+    if (timeline && pendingStep.current !== null) {
+      seek(pendingStep.current);
+      pendingStep.current = null;
+    }
+  }, [timeline, seek]);
+
+  const share = async (): Promise<void> => {
+    if (!visual || input === null) return;
+    const base = window.location.href.split('#')[0];
+    const url = `${base}#/algorithm/${visual.algorithm.id}?d=${encodeState(input)}&i=${index}`;
+    const ok = await copyText(url);
+    if (ok) {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1600);
+    }
+  };
 
   if (!visual) return <NotFoundPage />;
 
@@ -82,10 +107,18 @@ export const VisualizerPage = () => {
             </h1>
             <p className="max-w-xl text-sm text-haze">{algorithm.tagline}</p>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Badge accent={algorithm.accent}>{algorithm.category}</Badge>
             <Badge>avg {algorithm.info.complexity.timeAverage}</Badge>
             <Badge>space {algorithm.info.complexity.space}</Badge>
+            <button
+              type="button"
+              onClick={share}
+              className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-haze transition hover:border-cyan/50 hover:text-cyan"
+            >
+              {copied ? <Check size={13} /> : <Share2 size={13} />}
+              {copied ? 'Copied!' : 'Share'}
+            </button>
           </div>
         </div>
 
