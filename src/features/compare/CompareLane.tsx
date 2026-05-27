@@ -25,7 +25,7 @@ export const CompareLane = ({ visual, frame, finished }: CompareLaneProps) => {
   const metrics = frame?.metrics;
 
   return (
-    <Panel strong className="flex flex-col gap-3 p-4">
+    <Panel strong className="flex min-w-0 flex-col gap-3 p-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span

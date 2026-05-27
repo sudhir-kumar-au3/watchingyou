@@ -6,6 +6,39 @@ contributors inherit the reasoning, not just the result.
 
 ---
 
+## Entry 07 — Shareable links, graph breadth, and mobile
+
+### Deep links
+
+A small `share` util base64-encodes state into the URL. The Visualizer reads
+`?d=<input>&i=<step>` to reproduce a shared dataset and jump to the exact frame;
+the Playground reads `?c=<code>`. Both have a Share button that copies the link.
+Because we use a hash router, this is pure client-side — no backend, works on
+static hosting. Verified by round-trip in headless Chromium (shared array loads
+at the shared step; restored code runs).
+
+### Directed graphs + MST
+
+The graph model gained a `directed` flag and an MST `treeEdges` set; the
+renderer now draws **arrowheads** for directed edges and highlights tree/path
+edges in green — extended, not forked. Three algorithms landed on it:
+topological sort (Kahn's, on a directed DAG), and Prim's + Kruskal's minimum
+spanning trees. Test-first, pinning a valid topological order and an MST weight
+of 19 on the sample graph.
+
+### The mobile bug worth remembering
+
+At 390 px, five routes overflowed horizontally. The cause was the classic CSS
+trap: **grid and flex items default to `min-width: auto`**, so wide content
+(sorting bars, DP grids, the Monaco editor) refused to shrink below its
+intrinsic size and blew out the page. The fix was one class — `min-w-0` — on the
+column wrappers, letting inner `overflow-auto` regions scroll instead of
+stretching the layout. A headless audit (measuring `scrollWidth` vs viewport per
+route) found every offender and confirmed the fix: all routes now sit at +0 px
+overflow on a phone. Nav labels already collapse to icons below `sm`.
+
+---
+
 ## Entry 06 — Learning depth, DP, and a verification gate
 
 A product-driven round: rather than only adding algorithms, focus on what

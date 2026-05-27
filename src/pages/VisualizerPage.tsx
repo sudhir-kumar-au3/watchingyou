@@ -144,7 +144,7 @@ export const VisualizerPage = () => {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
-        <div className="flex flex-col gap-5">
+        <div className="flex min-w-0 flex-col gap-5">
           <Panel strong className="relative h-[440px] overflow-hidden p-5">
             <AnimatePresence mode="wait">
               <motion.div
@@ -178,7 +178,7 @@ export const VisualizerPage = () => {
           <MetricsBar metrics={metrics} labels={algorithm.metricLabels} />
         </div>
 
-        <div className="flex flex-col gap-5">
+        <div className="flex min-w-0 flex-col gap-5">
           {Controls && input !== null && (
             <Panel className="flex flex-col gap-4 p-5">
               <h3 className="text-xs font-semibold uppercase tracking-wide text-haze">

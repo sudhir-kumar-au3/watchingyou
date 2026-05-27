@@ -90,7 +90,7 @@ export const PlaygroundPage = () => {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <div className="flex flex-col gap-4">
+        <div className="flex min-w-0 flex-col gap-4">
           <Panel strong className="overflow-hidden p-0">
             <Editor
               height="420px"
@@ -172,7 +172,7 @@ export const PlaygroundPage = () => {
           </Panel>
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex min-w-0 flex-col gap-4">
           <Panel className="flex flex-col gap-4 p-5">
             <TimelineScrubber />
             <PlaybackControls />
