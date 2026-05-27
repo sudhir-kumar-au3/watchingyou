@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
     "typecheck": "tsc -b --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "verify": "npm run build:root && node scripts/verify.mjs"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",

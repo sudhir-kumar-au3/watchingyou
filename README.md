@@ -27,7 +27,14 @@ Live and growing:
 - Full deterministic, reversible playback (play/pause/step/scrub/speed)
   everywhere
 
-Run `npm test` for the interpreter's Vitest suite.
+- **Complexity Lab** — run sorts across input sizes and watch the operation-
+  count curves reveal O(n log n) vs O(n²); toggle input scenarios
+- **Dynamic programming** — LCS, edit distance, and 0/1 knapsack as animated
+  filling grids with dependency and back-trace highlighting
+
+Scripts: `npm test` (Vitest suite), `npm run verify` (headless render checks
+across every route — builds the app and asserts bars/nodes/cells/charts render
+error-free). Playback keyboard shortcuts: space, ←/→, R.
 
 ## Tech
 

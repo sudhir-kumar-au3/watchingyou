@@ -10,6 +10,8 @@ import { mergeSortModule } from './sorting/mergeSort';
 import { heapSortModule } from './sorting/heapSort';
 import { insertionSortModule } from './sorting/insertionSort';
 import { selectionSortModule } from './sorting/selectionSort';
+import { countingSortModule } from './sorting/countingSort';
+import { radixSortModule } from './sorting/radixSort';
 import { SortingRenderer } from './sorting/SortingRenderer';
 import { SortingControls } from './sorting/SortingControls';
 import { bfsModule } from './graphs/bfs';
@@ -43,6 +45,8 @@ export const sortingModules: SortVisualModule[] = [
   heapSortModule,
   insertionSortModule,
   selectionSortModule,
+  countingSortModule,
+  radixSortModule,
 ].map((algorithm) => ({
   algorithm,
   Renderer: SortingRenderer,

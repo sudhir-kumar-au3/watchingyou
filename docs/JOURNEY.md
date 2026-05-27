@@ -6,6 +6,53 @@ contributors inherit the reasoning, not just the result.
 
 ---
 
+## Entry 06 — Learning depth, DP, and a verification gate
+
+A product-driven round: rather than only adding algorithms, focus on what
+makes the app *teach* better, then harden the pipeline.
+
+### Make Big-O visible (Complexity Lab)
+
+We already counted operations — so the Complexity Lab runs each sort across
+growing input sizes and plots the comparisons it actually performs. The curve's
+shape *is* the complexity: merge sort stays nearly flat while bubble sort bends
+upward. Paired with **input scenarios** (sorted / reversed / nearly-sorted /
+few-unique), a learner can watch best- and worst-case behaviour diverge — quick
+sort degrading on sorted input, bubble sort flying on nearly-sorted.
+
+### Dynamic programming as a filling grid
+
+DP is where most learners stall, and the canonical breakthrough is *seeing the
+table fill*. A new `dp` grid state powers LCS, edit distance, and 0/1 knapsack:
+each highlights the cell being filled, the dependency cells it reads (amber),
+and the optimal back-trace path (green). Three different `TInput` shapes (two
+strings; items + capacity) plug into one renderer.
+
+### More sorts
+
+Counting and radix sort — non-comparison sorts — slotted into the existing bar
+renderer using the `write` tone, with relabelled metrics (tallies/placements).
+
+### Polish that compounds
+
+- **Keyboard shortcuts** (space, ←/→, R) driving the playback store globally,
+  guarded against typing in inputs and the Monaco editor.
+- **Route-level code splitting**: the main bundle dropped from 514 KB to
+  348 KB; the acorn-powered Playground is now a 146 KB chunk loaded only when
+  visited.
+
+### The verification gate
+
+The recurring lesson from earlier entries — "does it load?" missed invisible
+bars and a crashing page — finally became infrastructure. `npm run verify`
+builds the app and drives headless Chromium across every route, asserting the
+things that actually matter: sorting bars have real height, graph nodes render,
+DP cells appear, the complexity chart draws curves, and the playground runs
+error-free. Visual regressions of that class can't ship unnoticed again. The
+unit suite stands at **39 green** alongside it.
+
+---
+
 ## Entry 05 — Weighted pathfinding and trees
 
 Two new algorithm families, both leaning on the now-mature module system:

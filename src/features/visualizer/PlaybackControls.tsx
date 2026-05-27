@@ -77,6 +77,10 @@ export const PlaybackControls = () => {
           </button>
         ))}
       </div>
+
+      <span className="w-full text-center font-mono text-[10px] text-haze/60">
+        space play/pause · ← → step · R restart
+      </span>
     </div>
   );
 };
