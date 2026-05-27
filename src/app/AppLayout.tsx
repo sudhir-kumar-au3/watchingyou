@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Code2, Github, Swords } from 'lucide-react';
+import { Code2, Github, LineChart, Swords } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { cn } from '@/utils/cn';
 import { Brand } from './Brand';
@@ -20,6 +20,10 @@ export const AppLayout = ({ children }: AppLayoutProps) => (
       <div className="mx-auto flex w-full max-w-[1400px] items-center justify-between px-5 py-3.5">
         <Brand />
         <nav className="flex items-center gap-2">
+          <NavLink to="/complexity" className={navClass}>
+            <LineChart size={16} />
+            <span className="hidden sm:inline">Complexity</span>
+          </NavLink>
           <NavLink to="/playground" className={navClass}>
             <Code2 size={16} />
             <span className="hidden sm:inline">Playground</span>
