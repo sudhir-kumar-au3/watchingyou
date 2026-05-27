@@ -18,6 +18,9 @@ import { bfsModule } from './graphs/bfs';
 import { dfsModule } from './graphs/dfs';
 import { dijkstraModule } from './graphs/dijkstra';
 import { astarModule } from './graphs/astar';
+import { topologicalModule } from './graphs/topological';
+import { primModule } from './graphs/prim';
+import { kruskalModule } from './graphs/kruskal';
 import { GraphRenderer } from './graphs/GraphRenderer';
 import { GraphControls } from './graphs/GraphControls';
 import { GraphLegend } from './graphs/GraphLegend';
@@ -64,14 +67,26 @@ const traversalModules: AnyVisualModule[] = [bfsModule, dfsModule].map(
     })
 );
 
-const pathfindingModules: AnyVisualModule[] = [dijkstraModule, astarModule].map(
-  (algorithm) =>
-    defineModule({
-      algorithm,
-      Renderer: GraphRenderer,
-      Controls: WeightedGraphControls,
-      Legend: WeightedGraphLegend,
-    })
+const pathfindingModules: AnyVisualModule[] = [
+  dijkstraModule,
+  astarModule,
+  primModule,
+  kruskalModule,
+].map((algorithm) =>
+  defineModule({
+    algorithm,
+    Renderer: GraphRenderer,
+    Controls: WeightedGraphControls,
+    Legend: WeightedGraphLegend,
+  })
+);
+
+const directedModules: AnyVisualModule[] = [topologicalModule].map((algorithm) =>
+  defineModule({
+    algorithm,
+    Renderer: GraphRenderer,
+    Legend: GraphLegend,
+  })
 );
 
 const treeModules: AnyVisualModule[] = [bstModule].map((algorithm) =>
@@ -108,6 +123,7 @@ export const allModules: AnyVisualModule[] = [
   ...sortingModules.map(defineModule),
   ...traversalModules,
   ...pathfindingModules,
+  ...directedModules,
   ...treeModules,
   ...dpModules,
 ];

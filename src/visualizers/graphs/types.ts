@@ -15,6 +15,7 @@ export interface GraphInput {
   edges: GraphEdge[];
   start: string;
   goal?: string;
+  directed?: boolean;
 }
 
 export interface GraphState {
@@ -27,7 +28,9 @@ export interface GraphState {
   order: string[];
   distances: Record<string, number>;
   path: string[];
+  treeEdges: [string, string][];
   goal: string | null;
+  directed: boolean;
 }
 
 export const createGraphState = (
@@ -44,23 +47,48 @@ export const createGraphState = (
   order: [],
   distances: {},
   path: [],
+  treeEdges: [],
   goal: null,
+  directed: false,
   ...partial,
 });
 
 export const buildAdjacency = (
   nodes: GraphNode[],
-  edges: GraphEdge[]
+  edges: GraphEdge[],
+  directed = false
 ): Map<string, string[]> => {
   const adjacency = new Map<string, string[]>();
   nodes.forEach((node) => adjacency.set(node.id, []));
   edges.forEach(({ source, target }) => {
     adjacency.get(source)?.push(target);
-    adjacency.get(target)?.push(source);
+    if (!directed) adjacency.get(target)?.push(source);
   });
   adjacency.forEach((neighbors) => neighbors.sort());
   return adjacency;
 };
+
+export const dagSample = (): GraphInput => ({
+  start: 'A',
+  directed: true,
+  nodes: [
+    { id: 'A', x: 14, y: 24 },
+    { id: 'B', x: 14, y: 72 },
+    { id: 'C', x: 42, y: 24 },
+    { id: 'D', x: 42, y: 72 },
+    { id: 'E', x: 72, y: 48 },
+    { id: 'F', x: 90, y: 76 },
+  ],
+  edges: [
+    { source: 'A', target: 'C' },
+    { source: 'A', target: 'D' },
+    { source: 'B', target: 'D' },
+    { source: 'C', target: 'D' },
+    { source: 'C', target: 'E' },
+    { source: 'D', target: 'E' },
+    { source: 'E', target: 'F' },
+  ],
+});
 
 export interface WeightedEdge {
   to: string;

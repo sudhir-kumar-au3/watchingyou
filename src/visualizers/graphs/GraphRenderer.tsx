@@ -24,10 +24,13 @@ export const GraphRenderer = ({ frame }: RendererProps<GraphState>) => {
     state.nodes.map((node) => [node.id, node])
   );
 
-  const pathEdges = new Set<string>();
+  const highlightEdges = new Set<string>();
   for (let i = 0; i < state.path.length - 1; i += 1) {
-    pathEdges.add(edgeKey(state.path[i], state.path[i + 1]));
+    highlightEdges.add(edgeKey(state.path[i], state.path[i + 1]));
   }
+  state.treeEdges.forEach(([u, v]) => highlightEdges.add(edgeKey(u, v)));
+
+  const NODE_R = 4.6;
 
   return (
     <div className="flex h-full w-full items-center justify-center">
@@ -41,25 +44,36 @@ export const GraphRenderer = ({ frame }: RendererProps<GraphState>) => {
           const b = positions.get(target);
           if (!a || !b) return null;
           const active = edgeActive(state, source, target);
-          const onPath = pathEdges.has(edgeKey(source, target));
+          const highlighted = highlightEdges.has(edgeKey(source, target));
           const stroke = active
             ? PALETTE.cyan
-            : onPath
+            : highlighted
               ? PALETTE.lime
               : '#232a52';
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          const len = Math.hypot(dx, dy) || 1;
+          const ux = dx / len;
+          const uy = dy / len;
+          const ex = b.x - ux * NODE_R;
+          const ey = b.y - uy * NODE_R;
+          const arrow = state.directed
+            ? `${ex},${ey} ${ex - ux * 3 - uy * 1.7},${ey - uy * 3 + ux * 1.7} ${ex - ux * 3 + uy * 1.7},${ey - uy * 3 - ux * 1.7}`
+            : null;
           return (
             <g key={`${source}-${target}`}>
               <motion.line
                 x1={a.x}
                 y1={a.y}
-                x2={b.x}
-                y2={b.y}
+                x2={state.directed ? ex : b.x}
+                y2={state.directed ? ey : b.y}
                 animate={{
                   stroke,
-                  strokeWidth: active || onPath ? 1.4 : 0.7,
+                  strokeWidth: active || highlighted ? 1.4 : 0.7,
                 }}
                 strokeLinecap="round"
               />
+              {arrow && <polygon points={arrow} fill={stroke} />}
               {weight !== undefined && (
                 <text
                   x={(a.x + b.x) / 2}
