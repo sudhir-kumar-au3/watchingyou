@@ -1,1 +1,0 @@
-import{l as e,g as n}from"./index-CRMLz6p-.js";const t=({children:s,strong:a=!1,className:l,...o})=>e.jsx("div",{className:n(a?"glass-strong":"glass","rounded-2xl",l),...o,children:s});export{t as P};

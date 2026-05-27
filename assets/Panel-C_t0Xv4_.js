@@ -1,0 +1,1 @@
+import{m as l,h as n}from"./index-CEWNfbFY.js";const t=({children:s,strong:a=!1,className:o,...e})=>l.jsx("div",{className:n(a?"glass-strong":"glass","rounded-2xl",o),...e,children:s});export{t as P};
