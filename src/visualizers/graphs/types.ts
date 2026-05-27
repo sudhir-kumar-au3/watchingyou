@@ -7,12 +7,14 @@ export interface GraphNode {
 export interface GraphEdge {
   source: string;
   target: string;
+  weight?: number;
 }
 
 export interface GraphInput {
   nodes: GraphNode[];
   edges: GraphEdge[];
   start: string;
+  goal?: string;
 }
 
 export interface GraphState {
@@ -23,6 +25,9 @@ export interface GraphState {
   current: string | null;
   activeEdge: [string, string] | null;
   order: string[];
+  distances: Record<string, number>;
+  path: string[];
+  goal: string | null;
 }
 
 export const createGraphState = (
@@ -37,6 +42,9 @@ export const createGraphState = (
   current: null,
   activeEdge: null,
   order: [],
+  distances: {},
+  path: [],
+  goal: null,
   ...partial,
 });
 
@@ -53,6 +61,28 @@ export const buildAdjacency = (
   adjacency.forEach((neighbors) => neighbors.sort());
   return adjacency;
 };
+
+export interface WeightedEdge {
+  to: string;
+  weight: number;
+}
+
+export const buildWeightedAdjacency = (
+  nodes: GraphNode[],
+  edges: GraphEdge[]
+): Map<string, WeightedEdge[]> => {
+  const adjacency = new Map<string, WeightedEdge[]>();
+  nodes.forEach((node) => adjacency.set(node.id, []));
+  edges.forEach(({ source, target, weight = 1 }) => {
+    adjacency.get(source)?.push({ to: target, weight });
+    adjacency.get(target)?.push({ to: source, weight });
+  });
+  adjacency.forEach((neighbors) => neighbors.sort((a, b) => a.to.localeCompare(b.to)));
+  return adjacency;
+};
+
+export const euclidean = (a: GraphNode, b: GraphNode): number =>
+  Math.round(Math.hypot(a.x - b.x, a.y - b.y) / 10);
 
 export const randomGraph = (count = 8): GraphInput => {
   const ids = Array.from({ length: count }, (_, i) =>
@@ -115,3 +145,43 @@ export const sampleGraph = (): GraphInput => ({
     { source: 'G', target: 'H' },
   ],
 });
+
+export const weightedSampleGraph = (): GraphInput => ({
+  start: 'A',
+  goal: 'H',
+  nodes: [
+    { id: 'A', x: 50, y: 12 },
+    { id: 'B', x: 22, y: 36 },
+    { id: 'C', x: 78, y: 36 },
+    { id: 'D', x: 12, y: 68 },
+    { id: 'E', x: 40, y: 64 },
+    { id: 'F', x: 64, y: 66 },
+    { id: 'G', x: 88, y: 68 },
+    { id: 'H', x: 50, y: 90 },
+  ],
+  edges: [
+    { source: 'A', target: 'B', weight: 4 },
+    { source: 'A', target: 'C', weight: 3 },
+    { source: 'B', target: 'D', weight: 5 },
+    { source: 'B', target: 'E', weight: 2 },
+    { source: 'C', target: 'F', weight: 6 },
+    { source: 'C', target: 'G', weight: 7 },
+    { source: 'E', target: 'F', weight: 1 },
+    { source: 'D', target: 'H', weight: 3 },
+    { source: 'F', target: 'H', weight: 2 },
+    { source: 'G', target: 'H', weight: 4 },
+  ],
+});
+
+export const randomWeightedGraph = (count = 8): GraphInput => {
+  const base = randomGraph(count);
+  const edges = base.edges.map((edge) => ({
+    ...edge,
+    weight: Math.floor(Math.random() * 9) + 1,
+  }));
+  return {
+    ...base,
+    edges,
+    goal: base.nodes[base.nodes.length - 1].id,
+  };
+};

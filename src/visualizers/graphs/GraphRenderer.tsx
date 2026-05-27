@@ -10,16 +10,12 @@ const nodeColor = (state: GraphState, id: string): string => {
   return PALETTE.idle;
 };
 
-const edgeActive = (
-  state: GraphState,
-  a: string,
-  b: string
-): boolean => {
+const edgeKey = (a: string, b: string): string => [a, b].sort().join('~');
+
+const edgeActive = (state: GraphState, a: string, b: string): boolean => {
   const edge = state.activeEdge;
   if (!edge) return false;
-  return (
-    (edge[0] === a && edge[1] === b) || (edge[0] === b && edge[1] === a)
-  );
+  return (edge[0] === a && edge[1] === b) || (edge[0] === b && edge[1] === a);
 };
 
 export const GraphRenderer = ({ frame }: RendererProps<GraphState>) => {
@@ -28,6 +24,11 @@ export const GraphRenderer = ({ frame }: RendererProps<GraphState>) => {
     state.nodes.map((node) => [node.id, node])
   );
 
+  const pathEdges = new Set<string>();
+  for (let i = 0; i < state.path.length - 1; i += 1) {
+    pathEdges.add(edgeKey(state.path[i], state.path[i + 1]));
+  }
+
   return (
     <div className="flex h-full w-full items-center justify-center">
       <svg
@@ -35,32 +36,63 @@ export const GraphRenderer = ({ frame }: RendererProps<GraphState>) => {
         className="h-full max-h-full w-full"
         preserveAspectRatio="xMidYMid meet"
       >
-        {state.edges.map(({ source, target }) => {
+        {state.edges.map(({ source, target, weight }) => {
           const a = positions.get(source);
           const b = positions.get(target);
           if (!a || !b) return null;
           const active = edgeActive(state, source, target);
+          const onPath = pathEdges.has(edgeKey(source, target));
+          const stroke = active
+            ? PALETTE.cyan
+            : onPath
+              ? PALETTE.lime
+              : '#232a52';
           return (
-            <motion.line
-              key={`${source}-${target}`}
-              x1={a.x}
-              y1={a.y}
-              x2={b.x}
-              y2={b.y}
-              animate={{
-                stroke: active ? PALETTE.cyan : '#232a52',
-                strokeWidth: active ? 1.4 : 0.7,
-              }}
-              strokeLinecap="round"
-            />
+            <g key={`${source}-${target}`}>
+              <motion.line
+                x1={a.x}
+                y1={a.y}
+                x2={b.x}
+                y2={b.y}
+                animate={{
+                  stroke,
+                  strokeWidth: active || onPath ? 1.4 : 0.7,
+                }}
+                strokeLinecap="round"
+              />
+              {weight !== undefined && (
+                <text
+                  x={(a.x + b.x) / 2}
+                  y={(a.y + b.y) / 2 - 0.6}
+                  textAnchor="middle"
+                  style={{ fontSize: 2.8, fill: PALETTE.haze, fontWeight: 600 }}
+                >
+                  {weight}
+                </text>
+              )}
+            </g>
           );
         })}
 
         {state.nodes.map((node) => {
           const color = nodeColor(state, node.id);
           const orderIndex = state.order.indexOf(node.id);
+          const dist = state.distances[node.id];
+          const hasDist = dist !== undefined && Number.isFinite(dist);
+          const isGoal = state.goal === node.id;
           return (
             <g key={node.id}>
+              {isGoal && (
+                <circle
+                  cx={node.x}
+                  cy={node.y}
+                  r={6.4}
+                  fill="none"
+                  stroke={PALETTE.rose}
+                  strokeWidth={0.7}
+                  strokeDasharray="1.5 1.2"
+                />
+              )}
               <motion.circle
                 cx={node.x}
                 cy={node.y}
@@ -81,7 +113,17 @@ export const GraphRenderer = ({ frame }: RendererProps<GraphState>) => {
               >
                 {node.id}
               </text>
-              {orderIndex >= 0 && (
+              {hasDist && (
+                <text
+                  x={node.x + 5.8}
+                  y={node.y - 3.6}
+                  textAnchor="middle"
+                  style={{ fontSize: 3, fill: PALETTE.cyan, fontWeight: 700 }}
+                >
+                  {dist}
+                </text>
+              )}
+              {!hasDist && orderIndex >= 0 && (
                 <text
                   x={node.x + 5.5}
                   y={node.y - 4}

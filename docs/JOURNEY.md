@@ -6,6 +6,51 @@ contributors inherit the reasoning, not just the result.
 
 ---
 
+## Entry 05 — Weighted pathfinding and trees
+
+Two new algorithm families, both leaning on the now-mature module system:
+Dijkstra + A* (weighted graphs) and a Binary Search Tree (a third state shape).
+
+### Weighted graphs — one core, two algorithms
+
+Dijkstra and A* are the *same* search with a different priority function, so I
+wrote one `traceWeightedSearch(input, heuristic)` core and let each module
+supply its heuristic: `() => 0` for Dijkstra, an admissible scaled-Euclidean
+estimate for A*. The graph model gained edge weights, per-node distances, a
+goal, and a reconstructed path; the existing `GraphRenderer` was extended (not
+forked) to draw weight labels, live distance labels, the dashed goal ring, and
+the final path in green.
+
+**The A* admissibility trap.** My first heuristic (`euclidean/10`) *over*-
+estimated some true costs given the hand-authored integer weights — which can
+make A* return a non-optimal path. Rather than fudge the weights, I made the
+heuristic provably admissible: scale straight-line distance by the minimum
+weight-per-unit-distance ratio in the graph, so it can never exceed real cost.
+The tests pin this down: both algorithms must return distance 9 and the exact
+path `A→B→E→F→H` on the sample graph.
+
+### Binary Search Tree — layout is the interesting part
+
+Insertion and traversal are textbook; the visual challenge is *placement*. Each
+frame recomputes the layout from the current tree: an in-order walk assigns each
+node an x by its in-order rank and a y by its depth, so the BST invariant
+(left < node < right) reads left-to-right on screen. Nodes spring to their new
+positions as the tree grows. The in-order traversal at the end is the payoff —
+values light up in sorted order, which a test asserts directly.
+
+### Tests as the safety net
+
+Every pure generator added here is test-first: 5 pathfinding cases (shortest
+distance, exact path, full settle) and 3 BST cases (in-order sorted, node
+count, single value). Total suite is now **26 green**. A subtle bug surfaced —
+my A* heuristic — and the test caught it before any pixel rendered.
+
+The gallery now spans sorting (6), graph traversal (BFS/DFS), pathfinding
+(Dijkstra/A*), and trees (BST), plus the step-through interpreter — all on the
+same Timeline/playback spine.
+
+---
+
 ## Entry 04 — A real step-through interpreter
 
 The Proxy-array playground (Entry 03) could only "see" one array. A user

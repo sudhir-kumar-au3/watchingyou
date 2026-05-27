@@ -15,7 +15,11 @@ Live and growing:
 
 - **Six sorting visualizers** — Bubble, Quick, Merge, Heap, Insertion, Selection
   — with synchronized source highlighting, live metrics, and complexity panels
-- **Two graph traversals** — BFS and DFS — on an animated SVG graph
+- **Graph traversal** — BFS and DFS — on an animated SVG graph
+- **Weighted pathfinding** — Dijkstra and A* with edge weights, live distance
+  labels, a goal, and the reconstructed shortest path
+- **Binary Search Tree** — animated insertion + in-order traversal with live
+  re-layout
 - **Comparison mode** — race two algorithms on one dataset and one clock
 - **Code playground** — a real step-through JavaScript interpreter: write
   arbitrary JS and watch variables, arrays, the call stack, recursion depth, and

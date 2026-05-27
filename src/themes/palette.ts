@@ -5,6 +5,7 @@ export const PALETTE = {
   lime: '#a3e635',
   rose: '#fb7185',
   amber: '#fbbf24',
+  haze: '#8b93c7',
   idle: '#2c356b',
 } as const;
 

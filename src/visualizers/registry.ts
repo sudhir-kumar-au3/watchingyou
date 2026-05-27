@@ -14,9 +14,17 @@ import { SortingRenderer } from './sorting/SortingRenderer';
 import { SortingControls } from './sorting/SortingControls';
 import { bfsModule } from './graphs/bfs';
 import { dfsModule } from './graphs/dfs';
+import { dijkstraModule } from './graphs/dijkstra';
+import { astarModule } from './graphs/astar';
 import { GraphRenderer } from './graphs/GraphRenderer';
 import { GraphControls } from './graphs/GraphControls';
 import { GraphLegend } from './graphs/GraphLegend';
+import { WeightedGraphControls } from './graphs/WeightedGraphControls';
+import { WeightedGraphLegend } from './graphs/WeightedGraphLegend';
+import { bstModule } from './trees/bst';
+import { TreeRenderer } from './trees/TreeRenderer';
+import { TreeControls } from './trees/TreeControls';
+import { TreeLegend } from './trees/TreeLegend';
 import { Legend } from '@/features/visualizer/Legend';
 
 export type SortVisualModule = VisualModule<SortState, number[]>;
@@ -35,18 +43,40 @@ export const sortingModules: SortVisualModule[] = [
   Legend,
 }));
 
-const graphModules: AnyVisualModule[] = [bfsModule, dfsModule].map((algorithm) =>
+const traversalModules: AnyVisualModule[] = [bfsModule, dfsModule].map(
+  (algorithm) =>
+    defineModule({
+      algorithm,
+      Renderer: GraphRenderer,
+      Controls: GraphControls,
+      Legend: GraphLegend,
+    })
+);
+
+const pathfindingModules: AnyVisualModule[] = [dijkstraModule, astarModule].map(
+  (algorithm) =>
+    defineModule({
+      algorithm,
+      Renderer: GraphRenderer,
+      Controls: WeightedGraphControls,
+      Legend: WeightedGraphLegend,
+    })
+);
+
+const treeModules: AnyVisualModule[] = [bstModule].map((algorithm) =>
   defineModule({
     algorithm,
-    Renderer: GraphRenderer,
-    Controls: GraphControls,
-    Legend: GraphLegend,
+    Renderer: TreeRenderer,
+    Controls: TreeControls,
+    Legend: TreeLegend,
   })
 );
 
 export const allModules: AnyVisualModule[] = [
   ...sortingModules.map(defineModule),
-  ...graphModules,
+  ...traversalModules,
+  ...pathfindingModules,
+  ...treeModules,
 ];
 
 export const getModuleById = (id: string): AnyVisualModule | undefined =>
