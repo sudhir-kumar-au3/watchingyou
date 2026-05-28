@@ -35,6 +35,7 @@ import { avlModule } from './trees/avl';
 import { TreeRenderer } from './trees/TreeRenderer';
 import { TreeControls } from './trees/TreeControls';
 import { TreeLegend } from './trees/TreeLegend';
+import { AvlControls } from './trees/AvlControls';
 import { AvlLegend } from './trees/AvlLegend';
 import { heapModule } from './heaps/heap';
 import { HeapRenderer } from './heaps/HeapRenderer';
@@ -127,7 +128,7 @@ const treeModules: AnyVisualModule[] = [
   defineModule({
     algorithm: avlModule,
     Renderer: TreeRenderer,
-    Controls: TreeControls,
+    Controls: AvlControls,
     Legend: AvlLegend,
   }),
   defineModule({

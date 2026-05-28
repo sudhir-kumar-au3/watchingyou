@@ -22,9 +22,11 @@ Live and growing:
 - **Minimum spanning trees** — Prim's and Kruskal's, growing the tree edge by
   edge; Kruskal colors each node by its **disjoint-set component** so you watch
   the sets merge as edges are kept. Plus topological sort on a directed DAG
-- **Trees & heaps** — Binary Search Tree and self-balancing **AVL tree** (with
-  live balance factors and animated rotations), plus a **binary heap** shown as
-  a tree *and* its backing array, building then heap-sorting in place
+- **Trees & heaps** — Binary Search Tree and self-balancing **AVL tree** with
+  live balance factors and animated rotations on both **insert and delete**
+  (build any sequence of operations interactively), plus a **binary heap** shown
+  as a tree *and* its backing array, building then heap-sorting (repeated
+  extract-max) in place
 - **Union-Find** — a disjoint-set forest with union-by-rank and path compression
   drawn as parent-pointer arcs, colored by set
 - **Hashing** — a hash table with separate **chaining** and open-addressing

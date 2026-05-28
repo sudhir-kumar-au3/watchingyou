@@ -2,7 +2,7 @@ import { PALETTE } from '@/themes/palette';
 
 const ENTRIES = [
   { color: PALETTE.amber, label: 'Comparing' },
-  { color: PALETTE.cyan, label: 'Inserted / current' },
+  { color: PALETTE.cyan, label: 'Inserting / deleting' },
   { color: PALETTE.violet, label: 'Rotation pivot' },
   { color: PALETTE.lime, label: 'Visited (in-order)' },
   { color: PALETTE.idle, label: 'Idle (badge = balance factor)' },

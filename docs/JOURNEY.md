@@ -82,6 +82,25 @@ post-insert `if (rotation)` saw `never`. Reading it back through an explicit
 `as` cast restores the union — a known flow-analysis limitation, fixed in one
 local line rather than restructured around.
 
+**Follow-up — AVL deletion, the harder half.** The AVL viz only inserted; now it
+deletes too. The input changed from a list of values to a list of *operations*
+(`{ op: 'insert' | 'delete', value }`), with an interactive control that builds
+the sequence — insert and delete buttons, op chips, a randomizer. Deletion is
+the harder case to visualize honestly: insertion needs at most one rotation, but
+a delete can rebalance at *every* ancestor on the way back to the root. So the
+single-rotation `ctx` slot from insertion became a `rotations[]` array, and the
+rebalance criterion switched to the general one (the heavy child's balance factor
+decides single vs. double) which unifies the insert and delete paths through one
+`rebalance()`. Frames still land after the top-level reassignment — the same
+"don't snapshot a tree mid-recursion" rule — so all rotations from one operation
+animate together with their pivots highlighted. The default sequence is chosen so
+the build shows insert rotations *and* the closing deletes trigger a delete
+rotation. Tests pin the new behaviour: a delete that unbalances a node rotates and
+stays depth-bounded and in-order-sorted; a delete of an absent value is a no-op.
+The binary heap, meanwhile, already *was* delete: heap-sort is repeated
+extract-max with sift-down, the only deletion a max-heap has — so it needed
+nothing new.
+
 **Follow-up — the disjoint set, made visible inside Kruskal.** Kruskal's already
 *uses* union-find internally; now it shows it. Each frame emits an optional
 `components` map (node → color index, keyed by the set's root so colors stay
