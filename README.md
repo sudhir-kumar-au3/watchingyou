@@ -20,7 +20,8 @@ Live and growing:
 - **Weighted pathfinding** — Dijkstra and A* with edge weights, live distance
   labels, a goal, and the reconstructed shortest path
 - **Minimum spanning trees** — Prim's and Kruskal's, growing the tree edge by
-  edge; plus topological sort on a directed DAG
+  edge; Kruskal colors each node by its **disjoint-set component** so you watch
+  the sets merge as edges are kept. Plus topological sort on a directed DAG
 - **Trees & heaps** — Binary Search Tree and self-balancing **AVL tree** (with
   live balance factors and animated rotations), plus a **binary heap** shown as
   a tree *and* its backing array, building then heap-sorting in place

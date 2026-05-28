@@ -50,4 +50,18 @@ describe('Kruskal MST', () => {
     expect(state.treeEdges.length).toBe(7);
     expect(mstWeight(state)).toBe(19);
   });
+
+  it('starts with every node in its own singleton set', () => {
+    const first = kruskalModule.generate(weightedSampleGraph()).frames[0].state;
+    const values = Object.values(first.components ?? {});
+    expect(values.length).toBe(weightedSampleGraph().nodes.length);
+    expect(values.every((v) => v === -1)).toBe(true);
+  });
+
+  it('merges every node into one component by the end', () => {
+    const state = lastState(kruskalModule.generate, weightedSampleGraph());
+    const colors = new Set(Object.values(state.components ?? {}));
+    expect(colors.size).toBe(1);
+    expect([...colors][0]).toBeGreaterThanOrEqual(0);
+  });
 });

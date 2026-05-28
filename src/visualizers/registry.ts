@@ -29,6 +29,7 @@ import { WeightedGraphLegend } from './graphs/WeightedGraphLegend';
 import { MstControls } from './graphs/MstControls';
 import { RandomGraphControls } from './graphs/RandomGraphControls';
 import { MstLegend } from './graphs/MstLegend';
+import { KruskalLegend } from './graphs/KruskalLegend';
 import { bstModule } from './trees/bst';
 import { avlModule } from './trees/avl';
 import { TreeRenderer } from './trees/TreeRenderer';
@@ -104,7 +105,7 @@ const mstModules: AnyVisualModule[] = [
     algorithm: kruskalModule,
     Renderer: GraphRenderer,
     Controls: RandomGraphControls,
-    Legend: MstLegend,
+    Legend: KruskalLegend,
   }),
 ];
 

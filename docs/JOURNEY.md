@@ -82,6 +82,17 @@ post-insert `if (rotation)` saw `never`. Reading it back through an explicit
 `as` cast restores the union — a known flow-analysis limitation, fixed in one
 local line rather than restructured around.
 
+**Follow-up — the disjoint set, made visible inside Kruskal.** Kruskal's already
+*uses* union-find internally; now it shows it. Each frame emits an optional
+`components` map (node → color index, keyed by the set's root so colors stay
+stable and singletons read gray), and the shared `GraphRenderer` colors nodes by
+component when that map is present — leaving every other graph algorithm
+untouched. The component palette deliberately omits cyan and lime, which are
+reserved for the edge being tested and the kept edge, so node-colour never clashes
+with edge-state. The payoff: you watch separate colored islands grow and fuse
+into one as cheap edges are kept, while same-colour edges are skipped to avoid a
+cycle — the whole point of the algorithm, now legible at a glance.
+
 ---
 
 ## Entry 07 — Shareable links, graph breadth, and mobile

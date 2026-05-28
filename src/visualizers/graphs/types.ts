@@ -31,6 +31,7 @@ export interface GraphState {
   treeEdges: [string, string][];
   goal: string | null;
   directed: boolean;
+  components?: Record<string, number>;
 }
 
 export const createGraphState = (

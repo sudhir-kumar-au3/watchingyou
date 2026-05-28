@@ -31,6 +31,23 @@ const generate = (input: GraphInput): Timeline<GraphState> => {
   const find = (x: string): string =>
     parent[x] === x ? x : (parent[x] = find(parent[x]));
 
+  const colorIndex = new Map(nodes.map((node, index) => [node.id, index]));
+
+  const componentMap = (): Record<string, number> => {
+    const sizeByRoot = new Map<string, number>();
+    nodes.forEach((node) => {
+      const root = find(node.id);
+      sizeByRoot.set(root, (sizeByRoot.get(root) ?? 0) + 1);
+    });
+    const map: Record<string, number> = {};
+    nodes.forEach((node) => {
+      const root = find(node.id);
+      map[node.id] =
+        (sizeByRoot.get(root) ?? 1) >= 2 ? (colorIndex.get(root) ?? 0) : -1;
+    });
+    return map;
+  };
+
   const sorted = [...edges].sort(
     (a, b) => (a.weight ?? 1) - (b.weight ?? 1)
   );
@@ -42,6 +59,7 @@ const generate = (input: GraphInput): Timeline<GraphState> => {
       createGraphState(nodes, edges, {
         treeEdges: treeEdges.map(([u, v]) => [u, v]),
         visited: [...connected],
+        components: componentMap(),
         ...partial,
       }),
       description

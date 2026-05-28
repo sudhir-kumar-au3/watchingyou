@@ -3,7 +3,23 @@ import type { RendererProps } from '@/core/engine/types';
 import { PALETTE } from '@/themes/palette';
 import type { GraphNode, GraphState } from './types';
 
+const COMPONENT_CYCLE = [
+  PALETTE.violet,
+  PALETTE.amber,
+  PALETTE.rose,
+  '#34d399',
+  '#38bdf8',
+  '#f472b6',
+  '#c084fc',
+  '#facc15',
+];
+
 const nodeColor = (state: GraphState, id: string): string => {
+  if (state.components) {
+    const component = state.components[id];
+    if (component === undefined || component < 0) return PALETTE.idle;
+    return COMPONENT_CYCLE[component % COMPONENT_CYCLE.length];
+  }
   if (state.current === id) return PALETTE.cyan;
   if (state.frontier.includes(id)) return PALETTE.amber;
   if (state.visited.includes(id)) return PALETTE.lime;
