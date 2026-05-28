@@ -4,6 +4,7 @@ import { PALETTE } from '@/themes/palette';
 import type { TreeNode, TreeState } from './types';
 
 const nodeColor = (state: TreeState, id: string): string => {
+  if (state.rotating.includes(id)) return PALETTE.violet;
   if (state.active === id) return PALETTE.cyan;
   if (state.comparing === id) return PALETTE.amber;
   if (state.visited.includes(id)) return PALETTE.lime;
@@ -72,6 +73,16 @@ export const TreeRenderer = ({ frame }: RendererProps<TreeState>) => {
               >
                 {node.value}
               </motion.text>
+              {node.badge !== undefined && (
+                <motion.text
+                  animate={{ x: node.x + 5.4, y: node.y - 4 }}
+                  textAnchor="middle"
+                  className="font-mono"
+                  style={{ fontSize: 2.8, fill: PALETTE.haze, fontWeight: 700 }}
+                >
+                  {node.badge}
+                </motion.text>
+              )}
             </motion.g>
           );
         })}

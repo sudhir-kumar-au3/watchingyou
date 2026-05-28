@@ -3,6 +3,7 @@ export interface TreeNode {
   value: number;
   x: number;
   y: number;
+  badge?: string;
 }
 
 export interface TreeEdge {
@@ -17,6 +18,7 @@ export interface TreeState {
   active: string | null;
   visited: string[];
   path: string[];
+  rotating: string[];
 }
 
 export const createTreeState = (
@@ -30,6 +32,7 @@ export const createTreeState = (
   active: null,
   visited: [],
   path: [],
+  rotating: [],
   ...partial,
 });
 

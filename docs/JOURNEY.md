@@ -6,6 +6,84 @@ contributors inherit the reasoning, not just the result.
 
 ---
 
+## Entry 08 — Data-structure breadth: AVL, heaps, union-find, hashing
+
+This wave was a single instruction — *"all"* — answering whether to tidy the MST
+control or add a new family. So I did both, plus three new structures, in one
+coherent pass. The throughline: each addition reused the existing engine spine
+(immutable `Frame` timeline → store → scrubber) and proved itself with a
+test-first algorithm module before any pixels were drawn.
+
+### Tidying the MST control (the small, honest fix)
+
+Prim's and Kruskal's reused the weighted-pathfinding control, which showed a
+**goal picker that neither algorithm uses** — a lie in the UI. Split into two
+honest controls: `MstControls` (a "Grow from" start node, meaningful for Prim's
+animation order) and `RandomGraphControls` (Kruskal sorts globally — *"no start
+needed"*, stated outright). A new `MstLegend` describes what the colors actually
+mean for a spanning tree rather than borrowing pathfinding's "settling/frontier"
+vocabulary. Dijkstra/A\* keep the goal picker, because for them it's real.
+
+### AVL — balance made visible
+
+Extended `TreeState` with two optional fields (`badge` on a node, `rotating` on
+the state) so **BST and AVL share one renderer**. Each node now carries its
+balance factor as a small badge; rotation pivots glow violet. The teaching
+payoff is direct: feed it ascending input and watch a would-be linked list snap
+back into a logarithmic tree. A subtle engine truth drove the frame strategy —
+rotations mutate child pointers mid-recursion *before* the parent's pointer is
+reassigned, so a snapshot taken during the unwind would render a disconnected
+tree. The fix: snapshot only after `root = insert(root, value)` returns, letting
+Framer's springs glide every node into its rebalanced position. A test pins the
+height — 15 ascending inserts stay at depth ≤ 3, where a plain BST would be 14.
+
+### Binary heap — the array *is* the tree
+
+The most satisfying dual view in the app: an SVG tree (positions derived from
+array index `i` → level/offset) above the flat backing array. Floyd's build-heap
+sifts down from the last parent; heap-sort then swaps the root to the tail and
+re-sifts. As elements lock into sorted position the tree **shrinks** while the
+array's lime tail grows — you see in-place sorting and the heap shrink at once.
+
+### Union-Find — pointers you can follow
+
+A row of elements with parent pointers drawn as arcs above; color encodes the
+set, a dashed ring marks each root with its rank. Union-by-rank hangs the
+shorter tree under the taller; a `find` lights its path cyan, then **path
+compression** repoints those nodes straight at the root in lime. Tests assert
+single-set connectivity, that queried nodes flatten to depth 1, and that no
+chain ever cycles.
+
+### Hashing — collisions, two ways
+
+One module, one `strategy` flag, two renderers. **Separate chaining** shows a
+vertical list of buckets with `(v) → (v)` chains; **linear probing** shows a slot
+grid where a colliding key walks forward (amber) from its ringed home slot to the
+next free cell. The control toggles strategy live and resizes the table, making
+the load-factor story tangible: more keys, longer chains and probe runs. The
+probe loop is capped at `size` so a deliberately overfull table degrades to a
+clean "table is full" frame instead of spinning.
+
+### Categories & verification
+
+Added two `AlgorithmCategory` values — `hashing` and `structure` — surfaced as
+"Hashing" and "Data Structures" sections on the home grid; "Trees" became
+"Trees & Heaps". Four new render gates joined `npm run verify` (heap/union-find
+assert SVG nodes; hash asserts the empty-bucket glyph; AVL uses the loose
+page-render check since its first frame is an empty tree). Final tally: **55
+tests green**, `tsc`/`eslint` clean, all 10 verify checks pass. I also eyeballed
+every new route in headless Chromium mid-playback before shipping — the render
+gate proves elements exist, not that they look right, and on this project those
+are different bars.
+
+One TypeScript footnote worth recording: a `let` captured-and-reassigned inside a
+nested function still gets its `= null` narrowing carried across the call, so the
+post-insert `if (rotation)` saw `never`. Reading it back through an explicit
+`as` cast restores the union — a known flow-analysis limitation, fixed in one
+local line rather than restructured around.
+
+---
+
 ## Entry 07 — Shareable links, graph breadth, and mobile
 
 ### Deep links

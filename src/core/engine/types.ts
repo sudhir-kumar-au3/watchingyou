@@ -7,6 +7,8 @@ export type AlgorithmCategory =
   | 'graph'
   | 'dp'
   | 'tree'
+  | 'hashing'
+  | 'structure'
   | 'backtracking';
 
 export interface ComplexityProfile {

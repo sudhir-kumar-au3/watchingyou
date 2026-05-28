@@ -10,7 +10,9 @@ const CATEGORIES: { key: AlgorithmCategory; title: string }[] = [
   { key: 'graph', title: 'Graphs' },
   { key: 'searching', title: 'Searching' },
   { key: 'dp', title: 'Dynamic Programming' },
-  { key: 'tree', title: 'Trees' },
+  { key: 'tree', title: 'Trees & Heaps' },
+  { key: 'hashing', title: 'Hashing' },
+  { key: 'structure', title: 'Data Structures' },
   { key: 'backtracking', title: 'Backtracking' },
 ];
 

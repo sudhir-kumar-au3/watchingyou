@@ -88,6 +88,30 @@ const CHECKS = [
       page.evaluate(() => document.getElementById('root').innerText.length > 0),
   },
   {
+    route: '/#/algorithm/avl-tree',
+    name: 'AVL tree page renders',
+    test: (page) =>
+      page.evaluate(() => document.getElementById('root').innerText.length > 0),
+  },
+  {
+    route: '/#/algorithm/binary-heap',
+    name: 'heap renders tree nodes',
+    test: (page) =>
+      page.evaluate(() => document.querySelectorAll('svg circle').length > 0),
+  },
+  {
+    route: '/#/algorithm/union-find',
+    name: 'union-find renders nodes',
+    test: (page) =>
+      page.evaluate(() => document.querySelectorAll('svg circle').length > 0),
+  },
+  {
+    route: '/#/algorithm/hash-table',
+    name: 'hash table renders buckets',
+    test: (page) =>
+      page.evaluate(() => document.body.innerText.includes('∅')),
+  },
+  {
     route: '/#/algorithm/lcs',
     name: 'DP grid cells render',
     test: (page) =>

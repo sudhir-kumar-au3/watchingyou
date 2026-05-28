@@ -26,10 +26,26 @@ import { GraphControls } from './graphs/GraphControls';
 import { GraphLegend } from './graphs/GraphLegend';
 import { WeightedGraphControls } from './graphs/WeightedGraphControls';
 import { WeightedGraphLegend } from './graphs/WeightedGraphLegend';
+import { MstControls } from './graphs/MstControls';
+import { RandomGraphControls } from './graphs/RandomGraphControls';
+import { MstLegend } from './graphs/MstLegend';
 import { bstModule } from './trees/bst';
+import { avlModule } from './trees/avl';
 import { TreeRenderer } from './trees/TreeRenderer';
 import { TreeControls } from './trees/TreeControls';
 import { TreeLegend } from './trees/TreeLegend';
+import { AvlLegend } from './trees/AvlLegend';
+import { heapModule } from './heaps/heap';
+import { HeapRenderer } from './heaps/HeapRenderer';
+import { HeapLegend } from './heaps/HeapLegend';
+import { unionFindModule } from './structures/unionFind';
+import { UnionFindRenderer } from './structures/UnionFindRenderer';
+import { UnionFindControls } from './structures/UnionFindControls';
+import { UnionFindLegend } from './structures/UnionFindLegend';
+import { hashTableModule } from './hashing/hashTable';
+import { HashRenderer } from './hashing/HashRenderer';
+import { HashControls } from './hashing/HashControls';
+import { HashLegend } from './hashing/HashLegend';
 import { lcsModule } from './dp/lcs';
 import { editDistanceModule } from './dp/editDistance';
 import { knapsackModule } from './dp/knapsack';
@@ -67,19 +83,30 @@ const traversalModules: AnyVisualModule[] = [bfsModule, dfsModule].map(
     })
 );
 
-const pathfindingModules: AnyVisualModule[] = [
-  dijkstraModule,
-  astarModule,
-  primModule,
-  kruskalModule,
-].map((algorithm) =>
-  defineModule({
-    algorithm,
-    Renderer: GraphRenderer,
-    Controls: WeightedGraphControls,
-    Legend: WeightedGraphLegend,
-  })
+const pathfindingModules: AnyVisualModule[] = [dijkstraModule, astarModule].map(
+  (algorithm) =>
+    defineModule({
+      algorithm,
+      Renderer: GraphRenderer,
+      Controls: WeightedGraphControls,
+      Legend: WeightedGraphLegend,
+    })
 );
+
+const mstModules: AnyVisualModule[] = [
+  defineModule({
+    algorithm: primModule,
+    Renderer: GraphRenderer,
+    Controls: MstControls,
+    Legend: MstLegend,
+  }),
+  defineModule({
+    algorithm: kruskalModule,
+    Renderer: GraphRenderer,
+    Controls: RandomGraphControls,
+    Legend: MstLegend,
+  }),
+];
 
 const directedModules: AnyVisualModule[] = [topologicalModule].map((algorithm) =>
   defineModule({
@@ -89,14 +116,44 @@ const directedModules: AnyVisualModule[] = [topologicalModule].map((algorithm) =
   })
 );
 
-const treeModules: AnyVisualModule[] = [bstModule].map((algorithm) =>
+const treeModules: AnyVisualModule[] = [
   defineModule({
-    algorithm,
+    algorithm: bstModule,
     Renderer: TreeRenderer,
     Controls: TreeControls,
     Legend: TreeLegend,
-  })
-);
+  }),
+  defineModule({
+    algorithm: avlModule,
+    Renderer: TreeRenderer,
+    Controls: TreeControls,
+    Legend: AvlLegend,
+  }),
+  defineModule({
+    algorithm: heapModule,
+    Renderer: HeapRenderer,
+    Controls: TreeControls,
+    Legend: HeapLegend,
+  }),
+];
+
+const structureModules: AnyVisualModule[] = [
+  defineModule({
+    algorithm: unionFindModule,
+    Renderer: UnionFindRenderer,
+    Controls: UnionFindControls,
+    Legend: UnionFindLegend,
+  }),
+];
+
+const hashingModules: AnyVisualModule[] = [
+  defineModule({
+    algorithm: hashTableModule,
+    Renderer: HashRenderer,
+    Controls: HashControls,
+    Legend: HashLegend,
+  }),
+];
 
 const dpModules: AnyVisualModule[] = [
   defineModule({
@@ -123,8 +180,11 @@ export const allModules: AnyVisualModule[] = [
   ...sortingModules.map(defineModule),
   ...traversalModules,
   ...pathfindingModules,
+  ...mstModules,
   ...directedModules,
   ...treeModules,
+  ...structureModules,
+  ...hashingModules,
   ...dpModules,
 ];
 

@@ -13,13 +13,21 @@ the source code and complexity profile stay in sync with every frame.
 
 Live and growing:
 
-- **Six sorting visualizers** — Bubble, Quick, Merge, Heap, Insertion, Selection
-  — with synchronized source highlighting, live metrics, and complexity panels
+- **Eight sorting visualizers** — Bubble, Quick, Merge, Heap, Insertion,
+  Selection, Counting, Radix — with synchronized source highlighting, live
+  metrics, and complexity panels
 - **Graph traversal** — BFS and DFS — on an animated SVG graph
 - **Weighted pathfinding** — Dijkstra and A* with edge weights, live distance
   labels, a goal, and the reconstructed shortest path
-- **Binary Search Tree** — animated insertion + in-order traversal with live
-  re-layout
+- **Minimum spanning trees** — Prim's and Kruskal's, growing the tree edge by
+  edge; plus topological sort on a directed DAG
+- **Trees & heaps** — Binary Search Tree and self-balancing **AVL tree** (with
+  live balance factors and animated rotations), plus a **binary heap** shown as
+  a tree *and* its backing array, building then heap-sorting in place
+- **Union-Find** — a disjoint-set forest with union-by-rank and path compression
+  drawn as parent-pointer arcs, colored by set
+- **Hashing** — a hash table with separate **chaining** and open-addressing
+  **linear probing**, toggled live, showing collisions and probe runs
 - **Comparison mode** — race two algorithms on one dataset and one clock
 - **Code playground** — a real step-through JavaScript interpreter: write
   arbitrary JS and watch variables, arrays, the call stack, recursion depth, and
