@@ -50,7 +50,19 @@ export const AppLayout = ({ children }: AppLayoutProps) => (
     </main>
 
     <footer className="border-t border-white/5 py-6 text-center text-xs text-haze">
-      Built for explorers · Motion communicates logic
+      <p>Built for explorers · Motion communicates logic</p>
+      <p className="mt-1.5">
+        Designed &amp; built by{' '}
+        <a
+          href="https://github.com/sudhir-kumar-au3"
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1 font-medium text-mist transition hover:text-cyan"
+        >
+          <Github size={12} />
+          Sudhir Kumar
+        </a>
+      </p>
     </footer>
   </div>
 );

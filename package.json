@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "description": "Interactive algorithm & data-structure visualizer with deterministic, reversible playback.",
+  "author": "Sudhir Kumar (https://github.com/sudhir-kumar-au3)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sudhir-kumar-au3/watchingyou.git"
+  },
   "homepage": "https://sudhir-kumar-au3.github.io/watchingyou/",
   "scripts": {
     "dev": "vite",

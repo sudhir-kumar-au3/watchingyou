@@ -96,3 +96,9 @@ reasoning behind each decision.
 
 Pushing to `main` triggers a GitHub Actions workflow that builds and publishes
 to GitHub Pages. Enable Pages → Source: GitHub Actions in the repo settings.
+
+## Author
+
+**Sudhir Kumar** — [github.com/sudhir-kumar-au3](https://github.com/sudhir-kumar-au3)
+
+Designed and built as an exploration of how motion can make algorithms legible.
