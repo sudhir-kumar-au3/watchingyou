@@ -1,9 +1,11 @@
+import type { ReactNode } from 'react';
 import { motion } from 'framer-motion';
-import { Code2, Shuffle, Sparkles, Swords } from 'lucide-react';
+import { Clock, Code2, Shuffle, Sparkles, Star, Swords } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AlgorithmCard } from '@/features/gallery/AlgorithmCard';
 import { allModules } from '@/visualizers/registry';
-import type { AlgorithmCategory } from '@/core/engine/types';
+import type { AlgorithmCategory, AnyVisualModule } from '@/core/engine/types';
+import { useLibraryStore } from '@/store/libraryStore';
 
 const CATEGORIES: { key: AlgorithmCategory; title: string }[] = [
   { key: 'sorting', title: 'Sorting' },
@@ -19,12 +21,47 @@ const CATEGORIES: { key: AlgorithmCategory; title: string }[] = [
   { key: 'math', title: 'Math' },
 ];
 
+const byId = new Map<string, AnyVisualModule>(
+  allModules.map((module) => [module.algorithm.id, module])
+);
+
 export const HomePage = () => {
   const navigate = useNavigate();
+  const favorites = useLibraryStore((state) => state.favorites);
+  const recents = useLibraryStore((state) => state.recents);
+
   const surprise = (): void => {
     const pick = allModules[Math.floor(Math.random() * allModules.length)];
     navigate(`/algorithm/${pick.algorithm.id}`);
   };
+
+  const resolve = (ids: string[]): AnyVisualModule[] =>
+    ids
+      .map((id) => byId.get(id))
+      .filter((module): module is AnyVisualModule => module !== undefined);
+
+  const pinned = (
+    title: string,
+    icon: ReactNode,
+    modules: AnyVisualModule[]
+  ): ReactNode =>
+    modules.length === 0 ? null : (
+      <section className="flex flex-col gap-5">
+        <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-mist">
+          {icon}
+          {title}
+        </h2>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {modules.map((module, index) => (
+            <AlgorithmCard
+              key={module.algorithm.id}
+              algorithm={module.algorithm}
+              index={index}
+            />
+          ))}
+        </div>
+      </section>
+    );
 
   return (
     <div className="flex flex-col gap-12">
@@ -92,6 +129,9 @@ export const HomePage = () => {
         </button>
       </motion.div>
     </section>
+
+    {pinned('Favorites', <Star size={20} className="text-amber" fill="#fbbf24" />, resolve(favorites))}
+    {pinned('Recently viewed', <Clock size={20} className="text-cyan" />, resolve(recents))}
 
     {CATEGORIES.map(({ key, title }) => {
       const modules = allModules.filter(

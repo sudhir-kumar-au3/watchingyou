@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Code2, Github, LineChart, Swords, Table2 } from 'lucide-react';
+import { Code2, Github, LineChart, Search, Swords, Table2 } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { cn } from '@/utils/cn';
 import { Brand } from './Brand';
@@ -20,6 +20,15 @@ export const AppLayout = ({ children }: AppLayoutProps) => (
       <div className="mx-auto flex w-full max-w-[1400px] items-center justify-between px-5 py-3.5">
         <Brand />
         <nav className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent('wy:open-search'))}
+            aria-label="Search algorithms"
+            className="inline-flex items-center gap-2 rounded-xl glass px-3.5 py-2 text-sm text-haze transition hover:text-cyan"
+          >
+            <Search size={16} />
+            <span className="hidden font-mono text-xs md:inline">/</span>
+          </button>
           <NavLink to="/complexity" className={navClass}>
             <LineChart size={16} />
             <span className="hidden sm:inline">Complexity</span>

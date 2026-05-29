@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowLeft, Check, Download, Share2 } from 'lucide-react';
+import { ArrowLeft, Check, Download, Share2, Star } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { Panel } from '@/components/ui/Panel';
 import { AlgorithmSwitcher } from '@/features/visualizer/AlgorithmSwitcher';
@@ -14,6 +14,7 @@ import { usePlaybackEngine } from '@/hooks/usePlaybackEngine';
 import { useSonifier } from '@/hooks/useSonifier';
 import { usePlaybackStore } from '@/store/playbackStore';
 import { getModuleById } from '@/visualizers/registry';
+import { useLibraryStore } from '@/store/libraryStore';
 import { EMPTY_METRICS } from '@/core/timeline/types';
 import { NotFoundPage } from './NotFoundPage';
 import { copyText, decodeState, encodeState } from '@/utils/share';
@@ -32,8 +33,15 @@ export const VisualizerPage = () => {
   const index = usePlaybackStore((state) => state.index);
   const loadTimeline = usePlaybackStore((state) => state.loadTimeline);
   const seek = usePlaybackStore((state) => state.seek);
+  const favorites = useLibraryStore((state) => state.favorites);
+  const toggleFavorite = useLibraryStore((state) => state.toggleFavorite);
+  const visit = useLibraryStore((state) => state.visit);
 
   usePlaybackEngine();
+
+  useEffect(() => {
+    if (visual) visit(visual.algorithm.id);
+  }, [visual, visit]);
 
   useEffect(() => {
     if (!visual) return;
@@ -127,6 +135,19 @@ export const VisualizerPage = () => {
             <Badge accent={algorithm.accent}>{algorithm.category}</Badge>
             <Badge>avg {algorithm.info.complexity.timeAverage}</Badge>
             <Badge>space {algorithm.info.complexity.space}</Badge>
+            <button
+              type="button"
+              onClick={() => toggleFavorite(algorithm.id)}
+              aria-pressed={favorites.includes(algorithm.id)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-haze transition hover:border-amber/50 hover:text-amber"
+            >
+              <Star
+                size={13}
+                fill={favorites.includes(algorithm.id) ? '#fbbf24' : 'none'}
+                className={favorites.includes(algorithm.id) ? 'text-amber' : ''}
+              />
+              {favorites.includes(algorithm.id) ? 'Favorited' : 'Favorite'}
+            </button>
             <button
               type="button"
               onClick={share}
