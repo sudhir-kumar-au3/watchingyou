@@ -48,6 +48,14 @@ import { hashTableModule } from './hashing/hashTable';
 import { HashRenderer } from './hashing/HashRenderer';
 import { HashControls } from './hashing/HashControls';
 import { HashLegend } from './hashing/HashLegend';
+import { nQueensModule } from './backtracking/nqueens';
+import { NQueensRenderer } from './backtracking/NQueensRenderer';
+import { NQueensControls } from './backtracking/NQueensControls';
+import { NQueensLegend } from './backtracking/NQueensLegend';
+import { mazeModule } from './backtracking/maze';
+import { MazeRenderer } from './backtracking/MazeRenderer';
+import { MazeControls } from './backtracking/MazeControls';
+import { MazeLegend } from './backtracking/MazeLegend';
 import { lcsModule } from './dp/lcs';
 import { editDistanceModule } from './dp/editDistance';
 import { knapsackModule } from './dp/knapsack';
@@ -157,6 +165,21 @@ const hashingModules: AnyVisualModule[] = [
   }),
 ];
 
+const backtrackingModules: AnyVisualModule[] = [
+  defineModule({
+    algorithm: nQueensModule,
+    Renderer: NQueensRenderer,
+    Controls: NQueensControls,
+    Legend: NQueensLegend,
+  }),
+  defineModule({
+    algorithm: mazeModule,
+    Renderer: MazeRenderer,
+    Controls: MazeControls,
+    Legend: MazeLegend,
+  }),
+];
+
 const dpModules: AnyVisualModule[] = [
   defineModule({
     algorithm: lcsModule,
@@ -187,6 +210,7 @@ export const allModules: AnyVisualModule[] = [
   ...treeModules,
   ...structureModules,
   ...hashingModules,
+  ...backtrackingModules,
   ...dpModules,
 ];
 

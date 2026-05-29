@@ -112,6 +112,18 @@ const CHECKS = [
       page.evaluate(() => document.body.innerText.includes('∅')),
   },
   {
+    route: '/#/algorithm/n-queens',
+    name: 'N-Queens board renders',
+    test: (page) =>
+      page.evaluate(() => document.querySelectorAll('.grid > div').length > 20),
+  },
+  {
+    route: '/#/algorithm/maze-solver',
+    name: 'maze grid renders',
+    test: (page) =>
+      page.evaluate(() => document.querySelectorAll('.grid > div').length > 20),
+  },
+  {
     route: '/#/algorithm/lcs',
     name: 'DP grid cells render',
     test: (page) =>

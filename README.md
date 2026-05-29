@@ -31,6 +31,8 @@ Live and growing:
   drawn as parent-pointer arcs, colored by set
 - **Hashing** — a hash table with separate **chaining** and open-addressing
   **linear probing**, toggled live, showing collisions and probe runs
+- **Backtracking** — **N-Queens** (place, reject, backtrack on a live chessboard)
+  and a **maze solver** (depth-first search retreating out of every dead end)
 - **Comparison mode** — race two algorithms on one dataset and one clock
 - **Code playground** — a real step-through JavaScript interpreter: write
   arbitrary JS and watch variables, arrays, the call stack, recursion depth, and
