@@ -162,6 +162,14 @@ const CHECKS = [
       ),
   },
   {
+    route: '/#/algorithm/coin-change',
+    name: 'coin-change DP grid renders',
+    test: (page) =>
+      page.evaluate(
+        () => document.querySelectorAll('.aspect-square').length > 0
+      ),
+  },
+  {
     route: '/#/cheatsheet',
     name: 'cheat sheet renders rows',
     test: (page) =>

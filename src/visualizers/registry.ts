@@ -79,10 +79,16 @@ import { MazeLegend } from './backtracking/MazeLegend';
 import { lcsModule } from './dp/lcs';
 import { editDistanceModule } from './dp/editDistance';
 import { knapsackModule } from './dp/knapsack';
+import { lisModule } from './dp/lis';
+import { coinChangeModule } from './dp/coinChange';
+import { subsetSumModule } from './dp/subsetSum';
 import { DpRenderer } from './dp/DpRenderer';
 import { DpLegend } from './dp/DpLegend';
 import { StringPairControls } from './dp/StringPairControls';
 import { KnapsackControls } from './dp/KnapsackControls';
+import { LisControls } from './dp/LisControls';
+import { CoinChangeControls } from './dp/CoinChangeControls';
+import { SubsetSumControls } from './dp/SubsetSumControls';
 import { Legend } from '@/features/visualizer/Legend';
 
 export type SortVisualModule = VisualModule<SortState, number[]>;
@@ -253,6 +259,24 @@ const dpModules: AnyVisualModule[] = [
     algorithm: knapsackModule,
     Renderer: DpRenderer,
     Controls: KnapsackControls,
+    Legend: DpLegend,
+  }),
+  defineModule({
+    algorithm: lisModule,
+    Renderer: DpRenderer,
+    Controls: LisControls,
+    Legend: DpLegend,
+  }),
+  defineModule({
+    algorithm: coinChangeModule,
+    Renderer: DpRenderer,
+    Controls: CoinChangeControls,
+    Legend: DpLegend,
+  }),
+  defineModule({
+    algorithm: subsetSumModule,
+    Renderer: DpRenderer,
+    Controls: SubsetSumControls,
     Legend: DpLegend,
   }),
 ];
