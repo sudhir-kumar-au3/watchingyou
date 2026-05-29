@@ -124,6 +124,24 @@ const CHECKS = [
       page.evaluate(() => document.body.innerText.includes('window sum')),
   },
   {
+    route: '/#/algorithm/kmp',
+    name: 'KMP cells render',
+    test: (page) =>
+      page.evaluate(() => document.querySelectorAll('.grid > div').length > 0 || document.body.innerText.includes('LPS')),
+  },
+  {
+    route: '/#/algorithm/trie',
+    name: 'trie renders nodes',
+    test: (page) =>
+      page.evaluate(() => document.querySelectorAll('svg circle').length > 0),
+  },
+  {
+    route: '/#/algorithm/floyd-warshall',
+    name: 'Floyd-Warshall matrix renders',
+    test: (page) =>
+      page.evaluate(() => document.body.innerText.includes('∞') || document.querySelectorAll('.grid > div').length > 8),
+  },
+  {
     route: '/#/algorithm/n-queens',
     name: 'N-Queens board renders',
     test: (page) =>

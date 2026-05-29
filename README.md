@@ -16,14 +16,19 @@ Live and growing:
 - **Eight sorting visualizers** — Bubble, Quick, Merge, Heap, Insertion,
   Selection, Counting, Radix — with synchronized source highlighting, live
   metrics, and complexity panels
-- **Searching & two pointers** — binary search (halve the range each step) and a
-  sliding window (shortest subarray summing to ≥ a target) on live arrays
+- **Searching & strings** — binary search (halve the range), a sliding window
+  (shortest subarray summing to ≥ a target), and **KMP** pattern matching with a
+  live failure function
+- **Trie (prefix tree)** — insert words by shared prefix and look one up
+  character by character
 - **Graph traversal** — BFS and DFS — on an animated SVG graph
 - **Weighted pathfinding** — Dijkstra and A* with edge weights, live distance
   labels, a goal, and the reconstructed shortest path
 - **Minimum spanning trees** — Prim's and Kruskal's, growing the tree edge by
   edge; Kruskal colors each node by its **disjoint-set component** so you watch
   the sets merge as edges are kept. Plus topological sort on a directed DAG
+- **Floyd-Warshall** — all-pairs shortest paths as a live distance matrix,
+  relaxing through one intermediate vertex at a time
 - **Trees & heaps** — Binary Search Tree and self-balancing **AVL tree** with
   live balance factors and animated rotations on both **insert and delete**
   (build any sequence of operations interactively), plus a **binary heap** shown

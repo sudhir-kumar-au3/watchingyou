@@ -30,6 +30,10 @@ import { MstControls } from './graphs/MstControls';
 import { RandomGraphControls } from './graphs/RandomGraphControls';
 import { MstLegend } from './graphs/MstLegend';
 import { KruskalLegend } from './graphs/KruskalLegend';
+import { floydWarshallModule } from './graphs/floydWarshall';
+import { FloydMatrixRenderer } from './graphs/FloydMatrixRenderer';
+import { FloydWarshallControls } from './graphs/FloydWarshallControls';
+import { FloydLegend } from './graphs/FloydLegend';
 import { bstModule } from './trees/bst';
 import { avlModule } from './trees/avl';
 import { TreeRenderer } from './trees/TreeRenderer';
@@ -44,6 +48,10 @@ import { unionFindModule } from './structures/unionFind';
 import { UnionFindRenderer } from './structures/UnionFindRenderer';
 import { UnionFindControls } from './structures/UnionFindControls';
 import { UnionFindLegend } from './structures/UnionFindLegend';
+import { trieModule } from './structures/trie';
+import { TrieRenderer } from './structures/TrieRenderer';
+import { TrieControls } from './structures/TrieControls';
+import { TrieLegend } from './structures/TrieLegend';
 import { hashTableModule } from './hashing/hashTable';
 import { HashRenderer } from './hashing/HashRenderer';
 import { HashControls } from './hashing/HashControls';
@@ -56,6 +64,10 @@ import { slidingWindowModule } from './searching/slidingWindow';
 import { SlidingWindowRenderer } from './searching/SlidingWindowRenderer';
 import { SlidingWindowControls } from './searching/SlidingWindowControls';
 import { SlidingWindowLegend } from './searching/SlidingWindowLegend';
+import { kmpModule } from './searching/kmp';
+import { KmpRenderer } from './searching/KmpRenderer';
+import { KmpControls } from './searching/KmpControls';
+import { KmpLegend } from './searching/KmpLegend';
 import { nQueensModule } from './backtracking/nqueens';
 import { NQueensRenderer } from './backtracking/NQueensRenderer';
 import { NQueensControls } from './backtracking/NQueensControls';
@@ -126,6 +138,15 @@ const mstModules: AnyVisualModule[] = [
   }),
 ];
 
+const allPairsModules: AnyVisualModule[] = [
+  defineModule({
+    algorithm: floydWarshallModule,
+    Renderer: FloydMatrixRenderer,
+    Controls: FloydWarshallControls,
+    Legend: FloydLegend,
+  }),
+];
+
 const directedModules: AnyVisualModule[] = [topologicalModule].map((algorithm) =>
   defineModule({
     algorithm,
@@ -162,6 +183,12 @@ const structureModules: AnyVisualModule[] = [
     Controls: UnionFindControls,
     Legend: UnionFindLegend,
   }),
+  defineModule({
+    algorithm: trieModule,
+    Renderer: TrieRenderer,
+    Controls: TrieControls,
+    Legend: TrieLegend,
+  }),
 ];
 
 const hashingModules: AnyVisualModule[] = [
@@ -185,6 +212,12 @@ const searchingModules: AnyVisualModule[] = [
     Renderer: SlidingWindowRenderer,
     Controls: SlidingWindowControls,
     Legend: SlidingWindowLegend,
+  }),
+  defineModule({
+    algorithm: kmpModule,
+    Renderer: KmpRenderer,
+    Controls: KmpControls,
+    Legend: KmpLegend,
   }),
 ];
 
@@ -230,6 +263,7 @@ export const allModules: AnyVisualModule[] = [
   ...traversalModules,
   ...pathfindingModules,
   ...mstModules,
+  ...allPairsModules,
   ...directedModules,
   ...treeModules,
   ...structureModules,

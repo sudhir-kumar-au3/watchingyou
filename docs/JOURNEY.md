@@ -6,6 +6,41 @@ contributors inherit the reasoning, not just the result.
 
 ---
 
+## Entry 11 — Three more classics: trie, Floyd-Warshall, KMP
+
+Asked for more algorithms (and then "all possible"), added three heavily-searched
+ones — each a different rendering challenge, each test-first.
+
+- **Trie (prefix tree)** — an n-ary tree where words sharing a prefix share a
+  path. Reused the in-order-style layout idea but generalised to many children:
+  leaves get sequential x-slots, internal nodes sit at the midpoint of their
+  children. End-of-word nodes are ringed in lime; insert and search both walk one
+  character at a time. Tests pin prefix sharing (cat/car → 5 nodes), found vs.
+  prefix-only vs. absent, and one end-marker per word.
+- **Floyd-Warshall** — all-pairs shortest paths is the rare algorithm best shown
+  as a *matrix*, not a graph. The renderer is an (n+1)² grid with node-labelled
+  headers; the pivot row/col for vertex k glow violet, the two cells being summed
+  (i→k and k→j) glow amber, and a relaxed cell flashes lime. ∞ stands in for "no
+  path yet." Verified against an independent reference implementation.
+- **KMP** — the trickiest renderer: a text row with the pattern aligned *beneath
+  it at the current shift* (margin-left = (i − j) × cell width), matched prefix in
+  green, mismatch in rose, and the failure function (LPS) shown as its own row
+  that fills during the build phase. The payoff users feel: on a mismatch the
+  pattern slides forward using the LPS while the text pointer never moves back.
+  Tested for the LPS values, overlapping matches, and the absent case.
+
+That's sorting, searching/strings, graphs (traversal, weighted, MST, all-pairs,
+topological), trees & heaps, tries, union-find, hashing, DP, and backtracking —
+plus the live interpreter, complexity lab, cheat sheet, sound, and sharing.
+
+On "all possible algorithms": that set is effectively unbounded, so the honest
+plan is curated batches, not a single dump — next candidates are math (GCD,
+sieve, fast exponentiation), greedy (activity selection, Huffman), recursion
+(Hanoi, permutations/subsets), more DP (LIS, coin change), and advanced graph
+(Bellman-Ford, SCC, articulation points). Quality per visualizer over raw count.
+
+---
+
 ## Entry 10 — Searching, two pointers, and shareable images
 
 ### The two most-searched patterns
