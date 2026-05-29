@@ -112,6 +112,22 @@ import { factorizeModule } from './math/factorize';
 import { FactorizeRenderer } from './math/FactorizeRenderer';
 import { FactorizeControls } from './math/FactorizeControls';
 import { FactorizeLegend } from './math/FactorizeLegend';
+import { hanoiModule } from './recursion/hanoi';
+import { HanoiRenderer } from './recursion/HanoiRenderer';
+import { HanoiControls } from './recursion/HanoiControls';
+import { HanoiLegend } from './recursion/HanoiLegend';
+import { permutationsModule } from './recursion/permutations';
+import { PermutationsRenderer } from './recursion/PermutationsRenderer';
+import { PermutationsControls } from './recursion/PermutationsControls';
+import { PermutationsLegend } from './recursion/PermutationsLegend';
+import { activitySelectionModule } from './greedy/activitySelection';
+import { ActivityRenderer } from './greedy/ActivityRenderer';
+import { ActivityControls } from './greedy/ActivityControls';
+import { ActivityLegend } from './greedy/ActivityLegend';
+import { huffmanModule } from './greedy/huffman';
+import { HuffmanRenderer } from './greedy/HuffmanRenderer';
+import { HuffmanControls } from './greedy/HuffmanControls';
+import { HuffmanLegend } from './greedy/HuffmanLegend';
 import { Legend } from '@/features/visualizer/Legend';
 
 export type SortVisualModule = VisualModule<SortState, number[]>;
@@ -354,6 +370,36 @@ const mathModules: AnyVisualModule[] = [
   }),
 ];
 
+const recursionModules: AnyVisualModule[] = [
+  defineModule({
+    algorithm: hanoiModule,
+    Renderer: HanoiRenderer,
+    Controls: HanoiControls,
+    Legend: HanoiLegend,
+  }),
+  defineModule({
+    algorithm: permutationsModule,
+    Renderer: PermutationsRenderer,
+    Controls: PermutationsControls,
+    Legend: PermutationsLegend,
+  }),
+];
+
+const greedyModules: AnyVisualModule[] = [
+  defineModule({
+    algorithm: activitySelectionModule,
+    Renderer: ActivityRenderer,
+    Controls: ActivityControls,
+    Legend: ActivityLegend,
+  }),
+  defineModule({
+    algorithm: huffmanModule,
+    Renderer: HuffmanRenderer,
+    Controls: HuffmanControls,
+    Legend: HuffmanLegend,
+  }),
+];
+
 export const allModules: AnyVisualModule[] = [
   ...sortingModules.map(defineModule),
   ...searchingModules,
@@ -367,6 +413,8 @@ export const allModules: AnyVisualModule[] = [
   ...structureModules,
   ...hashingModules,
   ...backtrackingModules,
+  ...recursionModules,
+  ...greedyModules,
   ...dpModules,
   ...mathModules,
 ];

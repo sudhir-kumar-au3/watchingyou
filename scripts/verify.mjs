@@ -190,6 +190,30 @@ const CHECKS = [
       page.evaluate(() => document.querySelectorAll('.grid > div').length > 20),
   },
   {
+    route: '/#/algorithm/tower-of-hanoi',
+    name: 'Tower of Hanoi renders disks',
+    test: (page) =>
+      page.evaluate(() => document.body.innerText.includes('A') && document.body.innerText.includes('moves')),
+  },
+  {
+    route: '/#/algorithm/permutations',
+    name: 'permutations render',
+    test: (page) =>
+      page.evaluate(() => document.body.innerText.includes('pool') || document.body.innerText.includes('building')),
+  },
+  {
+    route: '/#/algorithm/activity-selection',
+    name: 'activity selection renders',
+    test: (page) =>
+      page.evaluate(() => document.body.innerText.includes('activit')),
+  },
+  {
+    route: '/#/algorithm/huffman',
+    name: 'Huffman tree renders',
+    test: (page) =>
+      page.evaluate(() => document.querySelectorAll('svg circle').length > 0),
+  },
+  {
     route: '/#/algorithm/lcs',
     name: 'DP grid cells render',
     test: (page) =>

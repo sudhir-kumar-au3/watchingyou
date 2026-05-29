@@ -46,6 +46,10 @@ Live and growing:
   and a **maze solver** (depth-first search retreating out of every dead end)
 - **Math** — Euclidean **GCD**, the **Sieve of Eratosthenes**, **fast
   exponentiation** (binary squaring), and **prime factorization** by trial division
+- **Recursion** — **Tower of Hanoi** (disks gliding across pegs) and
+  **permutations** (choose → recurse → backtrack)
+- **Greedy** — **activity selection** on an interval timeline and **Huffman
+  coding** (merge the rarest symbols into an optimal prefix tree)
 - **Comparison mode** — race two algorithms on one dataset and one clock
 - **Code playground** — a real step-through JavaScript interpreter: write
   arbitrary JS and watch variables, arrays, the call stack, recursion depth, and

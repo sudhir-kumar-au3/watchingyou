@@ -10,7 +10,9 @@ export type AlgorithmCategory =
   | 'hashing'
   | 'structure'
   | 'backtracking'
-  | 'math';
+  | 'math'
+  | 'recursion'
+  | 'greedy';
 
 export interface ComplexityProfile {
   timeBest: string;

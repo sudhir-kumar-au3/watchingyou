@@ -6,6 +6,40 @@ contributors inherit the reasoning, not just the result.
 
 ---
 
+## Entry 13 — Math, recursion, and greedy: the breadth push completes
+
+The last two batches of the "all possible" run — these needed *new* renderers,
+so the cost was higher than the reuse-heavy DP/graph batches, but the engine
+spine (run-once → immutable frames → scrub) held for all eight.
+
+**Math (GCD, Sieve, fast exponentiation, prime factorization)** got a new `math`
+category. GCD is two proportional bars shrinking by remainders; the Sieve is a
+number grid that strikes out each prime's multiples and lights the survivors;
+fast exponentiation shows the exponent in binary with the base squaring per bit
+and the result accruing; factorization peels primes off the remaining number into
+lime chips. Small, self-contained renderers — each reads in one glance.
+
+**Recursion (Tower of Hanoi, permutations)** and **Greedy (activity selection,
+Huffman)** got `recursion` and `greedy` categories. Hanoi uses Framer `layout`
+so disks physically glide between pegs; permutations show the choose →
+recurse → backtrack rhythm with results accreting below. Activity selection lays
+intervals on a timeline and greedily keeps the earliest-finishing compatible
+ones. Huffman was the one worth a design note: a tree that grows *bottom-up* is
+awkward to lay out incrementally, so I built the whole tree first, computed a
+fixed layout and the codes, then **replayed** the merges by revealing nodes in
+creation order — the same "compute once, animate by indexing" trick the whole app
+is built on, applied within a single visualizer.
+
+That closes the four requested batches. The gallery now spans sorting,
+searching/strings, graphs (traversal, weighted, MST, all-pairs, SCC,
+articulation, bipartite, topological), trees & heaps, tries, union-find, hashing,
+DP, backtracking, recursion, greedy, and math — alongside the live interpreter,
+complexity lab, cheat sheet, sound, and image/link sharing. "All possible" stays
+unbounded, but the spine has now absorbed ~45 algorithms without a rewrite, which
+was the real thing being tested.
+
+---
+
 ## Entry 12 — Toward "all of it": DP and advanced-graph batches
 
 Asked for "all possible algorithms," I set the honest expectation — that set is
