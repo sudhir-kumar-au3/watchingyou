@@ -142,6 +142,30 @@ const CHECKS = [
       page.evaluate(() => document.body.innerText.includes('∞') || document.querySelectorAll('.grid > div').length > 8),
   },
   {
+    route: '/#/algorithm/bellman-ford',
+    name: 'Bellman-Ford renders nodes',
+    test: (page) =>
+      page.evaluate(() => document.querySelectorAll('svg circle').length > 0),
+  },
+  {
+    route: '/#/algorithm/bipartite',
+    name: 'bipartite renders nodes',
+    test: (page) =>
+      page.evaluate(() => document.querySelectorAll('svg circle').length > 0),
+  },
+  {
+    route: '/#/algorithm/scc',
+    name: 'SCC renders nodes',
+    test: (page) =>
+      page.evaluate(() => document.querySelectorAll('svg circle').length > 0),
+  },
+  {
+    route: '/#/algorithm/articulation-points',
+    name: 'articulation points renders nodes',
+    test: (page) =>
+      page.evaluate(() => document.querySelectorAll('svg circle').length > 0),
+  },
+  {
     route: '/#/algorithm/n-queens',
     name: 'N-Queens board renders',
     test: (page) =>

@@ -6,6 +6,37 @@ contributors inherit the reasoning, not just the result.
 
 ---
 
+## Entry 12 — Toward "all of it": DP and advanced-graph batches
+
+Asked for "all possible algorithms," I set the honest expectation — that set is
+unbounded — and started working it in quality batches. Two landed here, each
+leaning hard on renderer reuse so the cost is in the algorithm, not new pixels.
+
+**More DP (LIS, coin change, subset sum).** All three reuse the existing DP-grid
+renderer/legend, so each is just a `generate` + a small control. LIS is a
+one-row table (dp[i] = longest run ending at i) with the considered predecessors
+as dependencies; coin change is a coins × amount table whose empty cells mean
+"unreachable" (and it beats greedy on {1,3,4} → 6); subset sum is an items × sum
+reachability table that backtraces the chosen subset. The generic `DpState`
+(grid + headers + current + deps + path) paid off — three classics for three
+pure functions.
+
+**Advanced graph (Bellman-Ford, SCC, articulation points, bipartite).** These
+reuse `GraphRenderer`, extended minimally: SCC and bipartite drive the existing
+`components` field (node → colour) — Kosaraju's two passes paint each strongly
+connected component, bipartite two-colours until a same-colour edge betrays an
+odd cycle; Bellman-Ford rides the `distances` field, relaxing every edge V−1
+times; articulation points needed one new optional field, `marked`, rendered as
+a rose ring around each cut vertex (found via the classic disc/low DFS). Defaults
+were picked to *show* the result — a bridge graph so two cut vertices actually
+ring, a clean 6-node bipartite graph so the two colours split visibly.
+
+The pattern across both batches: a good state abstraction means a new algorithm
+costs a tested pure function and maybe one optional field, not a renderer
+rewrite. Math and recursion/greedy batches are next.
+
+---
+
 ## Entry 11 — Three more classics: trie, Floyd-Warshall, KMP
 
 Asked for more algorithms (and then "all possible"), added three heavily-searched

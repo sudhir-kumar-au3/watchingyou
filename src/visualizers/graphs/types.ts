@@ -32,6 +32,7 @@ export interface GraphState {
   goal: string | null;
   directed: boolean;
   components?: Record<string, number>;
+  marked?: string[];
 }
 
 export const createGraphState = (
@@ -68,6 +69,33 @@ export const buildAdjacency = (
   adjacency.forEach((neighbors) => neighbors.sort());
   return adjacency;
 };
+
+export const sccSample = (): GraphInput => ({
+  start: 'A',
+  directed: true,
+  nodes: [
+    { id: 'A', x: 18, y: 22 },
+    { id: 'B', x: 40, y: 14 },
+    { id: 'C', x: 34, y: 44 },
+    { id: 'D', x: 62, y: 30 },
+    { id: 'E', x: 84, y: 20 },
+    { id: 'F', x: 78, y: 52 },
+    { id: 'G', x: 52, y: 78 },
+    { id: 'H', x: 82, y: 80 },
+  ],
+  edges: [
+    { source: 'A', target: 'B' },
+    { source: 'B', target: 'C' },
+    { source: 'C', target: 'A' },
+    { source: 'C', target: 'D' },
+    { source: 'D', target: 'E' },
+    { source: 'E', target: 'F' },
+    { source: 'F', target: 'D' },
+    { source: 'F', target: 'G' },
+    { source: 'G', target: 'H' },
+    { source: 'H', target: 'G' },
+  ],
+});
 
 export const dagSample = (): GraphInput => ({
   start: 'A',

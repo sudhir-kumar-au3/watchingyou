@@ -110,6 +110,7 @@ export const GraphRenderer = ({ frame }: RendererProps<GraphState>) => {
           const dist = state.distances[node.id];
           const hasDist = dist !== undefined && Number.isFinite(dist);
           const isGoal = state.goal === node.id;
+          const isMarked = state.marked?.includes(node.id) ?? false;
           return (
             <g key={node.id}>
               {isGoal && (
@@ -121,6 +122,16 @@ export const GraphRenderer = ({ frame }: RendererProps<GraphState>) => {
                   stroke={PALETTE.rose}
                   strokeWidth={0.7}
                   strokeDasharray="1.5 1.2"
+                />
+              )}
+              {isMarked && (
+                <circle
+                  cx={node.x}
+                  cy={node.y}
+                  r={6.6}
+                  fill="none"
+                  stroke={PALETTE.rose}
+                  strokeWidth={1}
                 />
               )}
               <motion.circle

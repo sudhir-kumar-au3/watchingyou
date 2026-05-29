@@ -34,6 +34,13 @@ import { floydWarshallModule } from './graphs/floydWarshall';
 import { FloydMatrixRenderer } from './graphs/FloydMatrixRenderer';
 import { FloydWarshallControls } from './graphs/FloydWarshallControls';
 import { FloydLegend } from './graphs/FloydLegend';
+import { bellmanFordModule } from './graphs/bellmanFord';
+import { bipartiteModule } from './graphs/bipartite';
+import { BipartiteLegend } from './graphs/BipartiteLegend';
+import { sccModule } from './graphs/scc';
+import { SccLegend } from './graphs/SccLegend';
+import { articulationModule } from './graphs/articulation';
+import { ArticulationLegend } from './graphs/ArticulationLegend';
 import { bstModule } from './trees/bst';
 import { avlModule } from './trees/avl';
 import { TreeRenderer } from './trees/TreeRenderer';
@@ -119,15 +126,38 @@ const traversalModules: AnyVisualModule[] = [bfsModule, dfsModule].map(
     })
 );
 
-const pathfindingModules: AnyVisualModule[] = [dijkstraModule, astarModule].map(
-  (algorithm) =>
-    defineModule({
-      algorithm,
-      Renderer: GraphRenderer,
-      Controls: WeightedGraphControls,
-      Legend: WeightedGraphLegend,
-    })
+const pathfindingModules: AnyVisualModule[] = [
+  dijkstraModule,
+  astarModule,
+  bellmanFordModule,
+].map((algorithm) =>
+  defineModule({
+    algorithm,
+    Renderer: GraphRenderer,
+    Controls: WeightedGraphControls,
+    Legend: WeightedGraphLegend,
+  })
 );
+
+const advancedGraphModules: AnyVisualModule[] = [
+  defineModule({
+    algorithm: bipartiteModule,
+    Renderer: GraphRenderer,
+    Controls: GraphControls,
+    Legend: BipartiteLegend,
+  }),
+  defineModule({
+    algorithm: sccModule,
+    Renderer: GraphRenderer,
+    Legend: SccLegend,
+  }),
+  defineModule({
+    algorithm: articulationModule,
+    Renderer: GraphRenderer,
+    Controls: GraphControls,
+    Legend: ArticulationLegend,
+  }),
+];
 
 const mstModules: AnyVisualModule[] = [
   defineModule({
@@ -288,6 +318,7 @@ export const allModules: AnyVisualModule[] = [
   ...pathfindingModules,
   ...mstModules,
   ...allPairsModules,
+  ...advancedGraphModules,
   ...directedModules,
   ...treeModules,
   ...structureModules,

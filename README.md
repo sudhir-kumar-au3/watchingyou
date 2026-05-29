@@ -29,6 +29,10 @@ Live and growing:
   the sets merge as edges are kept. Plus topological sort on a directed DAG
 - **Floyd-Warshall** — all-pairs shortest paths as a live distance matrix,
   relaxing through one intermediate vertex at a time
+- **Bellman-Ford** — single-source shortest paths by relaxing every edge V−1
+  times (handles negative weights)
+- **Strongly Connected Components** (Kosaraju), **articulation points** (cut
+  vertices), and a **bipartite check** — all on the animated graph
 - **Trees & heaps** — Binary Search Tree and self-balancing **AVL tree** with
   live balance factors and animated rotations on both **insert and delete**
   (build any sequence of operations interactively), plus a **binary heap** shown
@@ -49,8 +53,9 @@ Live and growing:
 
 - **Complexity Lab** — run sorts across input sizes and watch the operation-
   count curves reveal O(n log n) vs O(n²); toggle input scenarios
-- **Dynamic programming** — LCS, edit distance, and 0/1 knapsack as animated
-  filling grids with dependency and back-trace highlighting
+- **Dynamic programming** — LCS, edit distance, 0/1 knapsack, longest increasing
+  subsequence, coin change, and subset sum — animated filling grids with
+  dependency and back-trace highlighting
 
 - **Sound** — toggle the speaker to *hear* algorithms: each comparison/swap
   plays a tone pitched to the value it touches (great on sorting and heaps)
