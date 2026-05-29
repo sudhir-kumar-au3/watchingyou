@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Code2, Github, LineChart, Swords } from 'lucide-react';
+import { Code2, Github, LineChart, Swords, Table2 } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { cn } from '@/utils/cn';
 import { Brand } from './Brand';
@@ -23,6 +23,10 @@ export const AppLayout = ({ children }: AppLayoutProps) => (
           <NavLink to="/complexity" className={navClass}>
             <LineChart size={16} />
             <span className="hidden sm:inline">Complexity</span>
+          </NavLink>
+          <NavLink to="/cheatsheet" className={navClass}>
+            <Table2 size={16} />
+            <span className="hidden sm:inline">Cheat sheet</span>
           </NavLink>
           <NavLink to="/playground" className={navClass}>
             <Code2 size={16} />

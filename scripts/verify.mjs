@@ -120,6 +120,14 @@ const CHECKS = [
       ),
   },
   {
+    route: '/#/cheatsheet',
+    name: 'cheat sheet renders rows',
+    test: (page) =>
+      page.evaluate(
+        () => document.querySelectorAll('table tbody tr').length > 5
+      ),
+  },
+  {
     route: '/#/complexity',
     name: 'complexity chart draws curves',
     test: (page) =>

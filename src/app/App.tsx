@@ -13,6 +13,9 @@ const ComparePage = lazy(() =>
 const ComplexityPage = lazy(() =>
   import('@/pages/ComplexityPage').then((m) => ({ default: m.ComplexityPage }))
 );
+const CheatsheetPage = lazy(() =>
+  import('@/pages/CheatsheetPage').then((m) => ({ default: m.CheatsheetPage }))
+);
 const PlaygroundPage = lazy(() =>
   import('@/pages/PlaygroundPage').then((m) => ({ default: m.PlaygroundPage }))
 );
@@ -36,6 +39,7 @@ export const App = () => {
           <Route path="/algorithm/:id" element={<VisualizerPage />} />
           <Route path="/compare" element={<ComparePage />} />
           <Route path="/complexity" element={<ComplexityPage />} />
+          <Route path="/cheatsheet" element={<CheatsheetPage />} />
           <Route path="/playground" element={<PlaygroundPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
