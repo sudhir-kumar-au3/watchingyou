@@ -9,7 +9,8 @@ export type AlgorithmCategory =
   | 'tree'
   | 'hashing'
   | 'structure'
-  | 'backtracking';
+  | 'backtracking'
+  | 'math';
 
 export interface ComplexityProfile {
   timeBest: string;

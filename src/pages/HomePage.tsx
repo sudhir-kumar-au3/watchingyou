@@ -14,6 +14,7 @@ const CATEGORIES: { key: AlgorithmCategory; title: string }[] = [
   { key: 'hashing', title: 'Hashing' },
   { key: 'structure', title: 'Data Structures' },
   { key: 'backtracking', title: 'Backtracking' },
+  { key: 'math', title: 'Math' },
 ];
 
 export const HomePage = () => {

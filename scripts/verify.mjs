@@ -166,6 +166,18 @@ const CHECKS = [
       page.evaluate(() => document.querySelectorAll('svg circle').length > 0),
   },
   {
+    route: '/#/algorithm/sieve',
+    name: 'sieve grid renders',
+    test: (page) =>
+      page.evaluate(() => document.querySelectorAll('.aspect-square').length > 10),
+  },
+  {
+    route: '/#/algorithm/factorize',
+    name: 'prime factorization renders',
+    test: (page) =>
+      page.evaluate(() => document.body.innerText.includes('remaining') || document.body.innerText.includes('factor')),
+  },
+  {
     route: '/#/algorithm/n-queens',
     name: 'N-Queens board renders',
     test: (page) =>

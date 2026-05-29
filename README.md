@@ -44,6 +44,8 @@ Live and growing:
   **linear probing**, toggled live, showing collisions and probe runs
 - **Backtracking** — **N-Queens** (place, reject, backtrack on a live chessboard)
   and a **maze solver** (depth-first search retreating out of every dead end)
+- **Math** — Euclidean **GCD**, the **Sieve of Eratosthenes**, **fast
+  exponentiation** (binary squaring), and **prime factorization** by trial division
 - **Comparison mode** — race two algorithms on one dataset and one clock
 - **Code playground** — a real step-through JavaScript interpreter: write
   arbitrary JS and watch variables, arrays, the call stack, recursion depth, and

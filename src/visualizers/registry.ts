@@ -96,6 +96,22 @@ import { KnapsackControls } from './dp/KnapsackControls';
 import { LisControls } from './dp/LisControls';
 import { CoinChangeControls } from './dp/CoinChangeControls';
 import { SubsetSumControls } from './dp/SubsetSumControls';
+import { gcdModule } from './math/gcd';
+import { GcdRenderer } from './math/GcdRenderer';
+import { GcdControls } from './math/GcdControls';
+import { GcdLegend } from './math/GcdLegend';
+import { sieveModule } from './math/sieve';
+import { SieveRenderer } from './math/SieveRenderer';
+import { SieveControls } from './math/SieveControls';
+import { SieveLegend } from './math/SieveLegend';
+import { fastPowModule } from './math/fastPow';
+import { FastPowRenderer } from './math/FastPowRenderer';
+import { FastPowControls } from './math/FastPowControls';
+import { FastPowLegend } from './math/FastPowLegend';
+import { factorizeModule } from './math/factorize';
+import { FactorizeRenderer } from './math/FactorizeRenderer';
+import { FactorizeControls } from './math/FactorizeControls';
+import { FactorizeLegend } from './math/FactorizeLegend';
 import { Legend } from '@/features/visualizer/Legend';
 
 export type SortVisualModule = VisualModule<SortState, number[]>;
@@ -311,6 +327,33 @@ const dpModules: AnyVisualModule[] = [
   }),
 ];
 
+const mathModules: AnyVisualModule[] = [
+  defineModule({
+    algorithm: gcdModule,
+    Renderer: GcdRenderer,
+    Controls: GcdControls,
+    Legend: GcdLegend,
+  }),
+  defineModule({
+    algorithm: sieveModule,
+    Renderer: SieveRenderer,
+    Controls: SieveControls,
+    Legend: SieveLegend,
+  }),
+  defineModule({
+    algorithm: fastPowModule,
+    Renderer: FastPowRenderer,
+    Controls: FastPowControls,
+    Legend: FastPowLegend,
+  }),
+  defineModule({
+    algorithm: factorizeModule,
+    Renderer: FactorizeRenderer,
+    Controls: FactorizeControls,
+    Legend: FactorizeLegend,
+  }),
+];
+
 export const allModules: AnyVisualModule[] = [
   ...sortingModules.map(defineModule),
   ...searchingModules,
@@ -325,6 +368,7 @@ export const allModules: AnyVisualModule[] = [
   ...hashingModules,
   ...backtrackingModules,
   ...dpModules,
+  ...mathModules,
 ];
 
 export const getModuleById = (id: string): AnyVisualModule | undefined =>
