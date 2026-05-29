@@ -10,6 +10,7 @@ import { MetricsBar } from '@/features/visualizer/MetricsBar';
 import { PlaybackControls } from '@/features/visualizer/PlaybackControls';
 import { TimelineScrubber } from '@/features/visualizer/TimelineScrubber';
 import { usePlaybackEngine } from '@/hooks/usePlaybackEngine';
+import { useSonifier } from '@/hooks/useSonifier';
 import { usePlaybackStore } from '@/store/playbackStore';
 import { allModules, getModuleById } from '@/visualizers/registry';
 import { EMPTY_METRICS } from '@/core/timeline/types';
@@ -68,6 +69,13 @@ export const VisualizerPage = () => {
       pendingStep.current = null;
     }
   }, [timeline, seek]);
+
+  const liveState = useMemo(() => {
+    const list = timeline?.frames ?? [];
+    const safe = Math.min(index, Math.max(list.length - 1, 0));
+    return list[safe]?.state ?? null;
+  }, [timeline, index]);
+  useSonifier(liveState);
 
   const share = async (): Promise<void> => {
     if (!visual || input === null) return;

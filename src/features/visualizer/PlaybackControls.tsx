@@ -4,10 +4,13 @@ import {
   RotateCcw,
   SkipBack,
   SkipForward,
+  Volume2,
+  VolumeX,
 } from 'lucide-react';
 import { IconButton } from '@/components/ui/IconButton';
 import { isAtEnd, isAtStart } from '@/core/timeline/playback';
 import { SPEED_OPTIONS, usePlaybackStore } from '@/store/playbackStore';
+import { sonifier } from '@/core/audio/sonifier';
 import { cn } from '@/utils/cn';
 
 export const PlaybackControls = () => {
@@ -20,10 +23,17 @@ export const PlaybackControls = () => {
   const stepForward = usePlaybackStore((state) => state.stepForward);
   const stepBackward = usePlaybackStore((state) => state.stepBackward);
   const setSpeed = usePlaybackStore((state) => state.setSpeed);
+  const soundEnabled = usePlaybackStore((state) => state.soundEnabled);
+  const toggleSound = usePlaybackStore((state) => state.toggleSound);
 
   const playing = status === 'playing';
   const atStart = isAtStart(index);
   const atEnd = isAtEnd(index, frameCount);
+
+  const onToggleSound = (): void => {
+    sonifier.resume();
+    toggleSound();
+  };
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-4">
@@ -52,6 +62,16 @@ export const PlaybackControls = () => {
           disabled={atEnd}
         >
           <SkipForward size={18} />
+        </IconButton>
+        <IconButton
+          label={soundEnabled ? 'Mute sound' : 'Enable sound'}
+          onClick={onToggleSound}
+        >
+          {soundEnabled ? (
+            <Volume2 size={18} className="text-cyan" />
+          ) : (
+            <VolumeX size={18} />
+          )}
         </IconButton>
       </div>
 

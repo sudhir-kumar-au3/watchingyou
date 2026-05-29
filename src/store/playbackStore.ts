@@ -10,6 +10,7 @@ interface PlaybackState {
   index: number;
   speed: number;
   frameCount: number;
+  soundEnabled: boolean;
   loadTimeline: (frameCount: number) => void;
   play: () => void;
   pause: () => void;
@@ -19,6 +20,7 @@ interface PlaybackState {
   stepBackward: () => void;
   seek: (index: number) => void;
   setSpeed: (speed: number) => void;
+  toggleSound: () => void;
   advance: () => void;
 }
 
@@ -27,6 +29,7 @@ export const usePlaybackStore = create<PlaybackState>((set, get) => ({
   index: 0,
   speed: 1,
   frameCount: 0,
+  soundEnabled: false,
 
   loadTimeline: (frameCount) =>
     set({ frameCount, index: 0, status: 'idle' }),
@@ -70,6 +73,8 @@ export const usePlaybackStore = create<PlaybackState>((set, get) => ({
   },
 
   setSpeed: (speed) => set({ speed }),
+
+  toggleSound: () => set((state) => ({ soundEnabled: !state.soundEnabled })),
 
   advance: () => {
     const { index, frameCount } = get();
