@@ -6,6 +6,43 @@ contributors inherit the reasoning, not just the result.
 
 ---
 
+## Entry 10 — Searching, two pointers, and shareable images
+
+### The two most-searched patterns
+
+The `searching` category had a section on the home page but nothing in it. Filled
+it with the two patterns interview prep is built on. **Binary search** renders the
+sorted array as cells with `lo`/`hi`/`mid` markers; the middle is checked in
+amber, the discarded half dims to a third opacity, the hit lights green — the
+"halve the range" idea made literal. **Sliding window** (shortest subarray with
+sum ≥ target) shows the two-pointer dance: the right pointer expands, and once the
+window qualifies the left pointer contracts, with live `sum`/`shortest` chips and
+the best window outlined in lime. Both are O(n)/O(log n) stories that a static
+diagram can't tell — you have to watch the window breathe.
+
+### Save image — shareability without a backend
+
+Reach comes from sharing, so the visualizer can now export the current frame as a
+PNG. The renderers are a mix of SVG and HTML, so a hand-rolled SVG serializer
+wouldn't capture the sorting bars; `html-to-image` handles the whole node. The
+detail that makes it *shareable* rather than just a screenshot: capture the
+visualization panel by `id` with `backgroundColor` forced to the void colour and
+`pixelRatio: 2`, so the result is a crisp dark card showing the bars (neon glow
+intact), their value labels, and the step caption — self-explanatory out of
+context. Verified by actually triggering the download in headless Chromium and
+eyeballing the file, not just trusting the call returned.
+
+### Where I stopped: animated GIF
+
+I deliberately did *not* add GIF export. An in-browser GIF encoder (gif.js + a web
+worker) is a heavy dependency with real encoding-time and fidelity cost, and on a
+mixed SVG/HTML DOM the per-frame capture is slow and lossy. A high-quality PNG
+plus the existing deep links (which reproduce a run at an exact step) cover the
+sharing goal at a fraction of the weight. Same principle as the light-theme/PWA
+deferral last wave: ship the version that's actually good.
+
+---
+
 ## Entry 09 — Making it lovable: sound, a cheat sheet, backtracking, polish
 
 Asked "what would make the masses love it?", I picked four directions and built

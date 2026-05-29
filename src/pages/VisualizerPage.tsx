@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowLeft, Check, Share2 } from 'lucide-react';
+import { ArrowLeft, Check, Download, Share2 } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { Panel } from '@/components/ui/Panel';
 import { CodePanel } from '@/features/visualizer/CodePanel';
@@ -17,6 +17,7 @@ import { EMPTY_METRICS } from '@/core/timeline/types';
 import { NotFoundPage } from './NotFoundPage';
 import { cn } from '@/utils/cn';
 import { copyText, decodeState, encodeState } from '@/utils/share';
+import { exportNodeToPng } from '@/utils/exportImage';
 
 export const VisualizerPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -77,6 +78,13 @@ export const VisualizerPage = () => {
   }, [timeline, index]);
   useSonifier(liveState);
 
+  const saveImage = async (): Promise<void> => {
+    const node = document.getElementById('viz-stage');
+    if (node && visual) {
+      await exportNodeToPng(node, `watchingyou-${visual.algorithm.id}.png`);
+    }
+  };
+
   const share = async (): Promise<void> => {
     if (!visual || input === null) return;
     const base = window.location.href.split('#')[0];
@@ -127,6 +135,14 @@ export const VisualizerPage = () => {
               {copied ? <Check size={13} /> : <Share2 size={13} />}
               {copied ? 'Copied!' : 'Share'}
             </button>
+            <button
+              type="button"
+              onClick={saveImage}
+              className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-haze transition hover:border-cyan/50 hover:text-cyan"
+            >
+              <Download size={13} />
+              Save image
+            </button>
           </div>
         </div>
 
@@ -153,7 +169,11 @@ export const VisualizerPage = () => {
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
         <div className="flex min-w-0 flex-col gap-5">
-          <Panel strong className="relative h-[440px] overflow-hidden p-5">
+          <Panel
+            id="viz-stage"
+            strong
+            className="relative h-[440px] overflow-hidden p-5"
+          >
             <AnimatePresence mode="wait">
               <motion.div
                 key={frame?.description ?? 'empty'}

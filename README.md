@@ -52,6 +52,8 @@ Live and growing:
 - **Interview cheat sheet** — a sortable table of every algorithm's Big-O plus
   the classic interview problems each one solves
 - **Surprise me** — jump to a random visualizer; **?** opens the shortcuts help
+- **Save image** — export the current visualization (with its step caption) as a
+  crisp shareable PNG
 
 Scripts: `npm test` (Vitest suite), `npm run verify` (headless render checks
 across every route — builds the app and asserts bars/nodes/cells/charts render
