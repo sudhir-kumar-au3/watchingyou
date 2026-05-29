@@ -112,6 +112,18 @@ const CHECKS = [
       page.evaluate(() => document.body.innerText.includes('∅')),
   },
   {
+    route: '/#/algorithm/binary-search',
+    name: 'binary search cells render',
+    test: (page) =>
+      page.evaluate(() => document.body.innerText.includes('target')),
+  },
+  {
+    route: '/#/algorithm/sliding-window',
+    name: 'sliding window cells render',
+    test: (page) =>
+      page.evaluate(() => document.body.innerText.includes('window sum')),
+  },
+  {
     route: '/#/algorithm/n-queens',
     name: 'N-Queens board renders',
     test: (page) =>

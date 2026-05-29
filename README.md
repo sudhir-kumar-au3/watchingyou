@@ -16,6 +16,8 @@ Live and growing:
 - **Eight sorting visualizers** — Bubble, Quick, Merge, Heap, Insertion,
   Selection, Counting, Radix — with synchronized source highlighting, live
   metrics, and complexity panels
+- **Searching & two pointers** — binary search (halve the range each step) and a
+  sliding window (shortest subarray summing to ≥ a target) on live arrays
 - **Graph traversal** — BFS and DFS — on an animated SVG graph
 - **Weighted pathfinding** — Dijkstra and A* with edge weights, live distance
   labels, a goal, and the reconstructed shortest path

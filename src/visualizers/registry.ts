@@ -48,6 +48,14 @@ import { hashTableModule } from './hashing/hashTable';
 import { HashRenderer } from './hashing/HashRenderer';
 import { HashControls } from './hashing/HashControls';
 import { HashLegend } from './hashing/HashLegend';
+import { binarySearchModule } from './searching/binarySearch';
+import { BinarySearchRenderer } from './searching/BinarySearchRenderer';
+import { BinarySearchControls } from './searching/BinarySearchControls';
+import { BinarySearchLegend } from './searching/BinarySearchLegend';
+import { slidingWindowModule } from './searching/slidingWindow';
+import { SlidingWindowRenderer } from './searching/SlidingWindowRenderer';
+import { SlidingWindowControls } from './searching/SlidingWindowControls';
+import { SlidingWindowLegend } from './searching/SlidingWindowLegend';
 import { nQueensModule } from './backtracking/nqueens';
 import { NQueensRenderer } from './backtracking/NQueensRenderer';
 import { NQueensControls } from './backtracking/NQueensControls';
@@ -165,6 +173,21 @@ const hashingModules: AnyVisualModule[] = [
   }),
 ];
 
+const searchingModules: AnyVisualModule[] = [
+  defineModule({
+    algorithm: binarySearchModule,
+    Renderer: BinarySearchRenderer,
+    Controls: BinarySearchControls,
+    Legend: BinarySearchLegend,
+  }),
+  defineModule({
+    algorithm: slidingWindowModule,
+    Renderer: SlidingWindowRenderer,
+    Controls: SlidingWindowControls,
+    Legend: SlidingWindowLegend,
+  }),
+];
+
 const backtrackingModules: AnyVisualModule[] = [
   defineModule({
     algorithm: nQueensModule,
@@ -203,6 +226,7 @@ const dpModules: AnyVisualModule[] = [
 
 export const allModules: AnyVisualModule[] = [
   ...sortingModules.map(defineModule),
+  ...searchingModules,
   ...traversalModules,
   ...pathfindingModules,
   ...mstModules,
