@@ -41,6 +41,7 @@ export interface AlgorithmModule<TState, TInput> {
   tagline: string;
   accent: string;
   sourceCode: string;
+  pythonSource?: string;
   info: AlgorithmInfo;
   metricLabels?: MetricLabels;
   createDefaultInput: () => TInput;

@@ -72,6 +72,18 @@ export const radixSortModule: AlgorithmModule<SortState, number[]> = {
   tagline: 'Stable-sort digit by digit, least significant first.',
   accent: '#818cf8',
   sourceCode: SOURCE,
+  pythonSource: `def radix_sort(arr):
+    if not arr:
+        return arr
+    exp = 1
+    hi = max(arr)
+    while hi // exp > 0:
+        buckets = [[] for _ in range(10)]
+        for x in arr:
+            buckets[(x // exp) % 10].append(x)
+        arr = [x for b in buckets for x in b]
+        exp *= 10
+    return arr`,
   metricLabels: { comparisons: 'Tallies', swaps: 'Placements', accesses: 'Reads' },
   info: {
     explanation:

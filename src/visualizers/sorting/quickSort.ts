@@ -115,6 +115,21 @@ export const quickSortModule: AlgorithmModule<SortState, number[]> = {
   tagline: 'Divide and conquer around a pivot for near-linear speed.',
   accent: '#a855f7',
   sourceCode: SOURCE,
+  pythonSource: `def quicksort(arr, lo=0, hi=None):
+    if hi is None:
+        hi = len(arr) - 1
+    if lo >= hi:
+        return arr
+    pivot = arr[hi]
+    i = lo
+    for j in range(lo, hi):
+        if arr[j] < pivot:
+            arr[i], arr[j] = arr[j], arr[i]
+            i += 1
+    arr[i], arr[hi] = arr[hi], arr[i]
+    quicksort(arr, lo, i - 1)
+    quicksort(arr, i + 1, hi)
+    return arr`,
   info: {
     explanation:
       'Quick sort selects a pivot and partitions the array so that smaller values sit to its left and larger values to its right. It then recursively sorts each partition. The pivot lands in its final position after every partition step.',

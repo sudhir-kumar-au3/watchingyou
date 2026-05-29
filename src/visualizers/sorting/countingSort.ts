@@ -59,6 +59,17 @@ export const countingSortModule: AlgorithmModule<SortState, number[]> = {
   tagline: 'Tally values, then rebuild the array in sorted order.',
   accent: '#2dd4bf',
   sourceCode: SOURCE,
+  pythonSource: `def counting_sort(arr):
+    if not arr:
+        return arr
+    hi = max(arr)
+    count = [0] * (hi + 1)
+    for x in arr:
+        count[x] += 1
+    out = []
+    for value, c in enumerate(count):
+        out.extend([value] * c)
+    return out`,
   metricLabels: { comparisons: 'Tallies', swaps: 'Placements', accesses: 'Reads' },
   info: {
     explanation:

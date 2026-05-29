@@ -87,6 +87,15 @@ export const insertionSortModule: AlgorithmModule<SortState, number[]> = {
   tagline: 'Build a sorted region one element at a time.',
   accent: '#34d399',
   sourceCode: SOURCE,
+  pythonSource: `def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+    return arr`,
   info: {
     explanation:
       'Insertion sort grows a sorted region at the front of the array. Each new element is compared backward and shifted into the correct slot, much like sorting a hand of playing cards.',

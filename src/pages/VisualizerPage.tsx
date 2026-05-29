@@ -17,6 +17,7 @@ import { getModuleById } from '@/visualizers/registry';
 import { useLibraryStore } from '@/store/libraryStore';
 import { EMPTY_METRICS } from '@/core/timeline/types';
 import { NotFoundPage } from './NotFoundPage';
+import { cn } from '@/utils/cn';
 import { copyText, decodeState, encodeState } from '@/utils/share';
 import { exportNodeToPng } from '@/utils/exportImage';
 
@@ -29,6 +30,7 @@ export const VisualizerPage = () => {
     null
   );
   const [copied, setCopied] = useState(false);
+  const [lang, setLang] = useState<'js' | 'python'>('js');
   const pendingStep = useRef<number | null>(null);
   const index = usePlaybackStore((state) => state.index);
   const loadTimeline = usePlaybackStore((state) => state.loadTimeline);
@@ -220,12 +222,44 @@ export const VisualizerPage = () => {
           )}
 
           <Panel className="flex flex-col gap-3 p-5">
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-haze">
-              Source
-            </h3>
+            <div className="flex items-center justify-between">
+              <h3 className="text-xs font-semibold uppercase tracking-wide text-haze">
+                Source
+              </h3>
+              {algorithm.pythonSource && (
+                <div
+                  className="flex items-center gap-1 rounded-lg glass p-0.5"
+                  role="group"
+                  aria-label="Source language"
+                >
+                  {(['js', 'python'] as const).map((value) => (
+                    <button
+                      key={value}
+                      type="button"
+                      onClick={() => setLang(value)}
+                      aria-pressed={lang === value}
+                      className={cn(
+                        'rounded-md px-2.5 py-1 font-mono text-[11px] transition',
+                        lang === value
+                          ? 'bg-cyan/20 text-cyan'
+                          : 'text-haze hover:text-mist'
+                      )}
+                    >
+                      {value === 'js' ? 'JS' : 'Py'}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
             <CodePanel
-              sourceCode={algorithm.sourceCode}
-              highlightedLines={frame?.highlightedLines ?? []}
+              sourceCode={
+                lang === 'python' && algorithm.pythonSource
+                  ? algorithm.pythonSource
+                  : algorithm.sourceCode
+              }
+              highlightedLines={
+                lang === 'python' ? [] : (frame?.highlightedLines ?? [])
+              }
             />
           </Panel>
         </div>

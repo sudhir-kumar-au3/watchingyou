@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes } from 'react-router-dom';
 import { usePlaybackHotkeys } from '@/hooks/usePlaybackHotkeys';
 import { AppLayout } from './AppLayout';
 import { ShortcutsOverlay } from '@/features/help/ShortcutsOverlay';
@@ -24,6 +24,9 @@ const PlaygroundPage = lazy(() =>
 const GraphLabPage = lazy(() =>
   import('@/pages/GraphLabPage').then((m) => ({ default: m.GraphLabPage }))
 );
+const EmbedPage = lazy(() =>
+  import('@/pages/EmbedPage').then((m) => ({ default: m.EmbedPage }))
+);
 const NotFoundPage = lazy(() =>
   import('@/pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage }))
 );
@@ -34,12 +37,23 @@ const PageFallback = () => (
   </div>
 );
 
+const Shell = () => (
+  <>
+    <AppLayout>
+      <Outlet />
+    </AppLayout>
+    <ShortcutsOverlay />
+    <SearchPalette />
+  </>
+);
+
 export const App = () => {
   usePlaybackHotkeys();
   return (
-    <AppLayout>
-      <Suspense fallback={<PageFallback />}>
-        <Routes>
+    <Suspense fallback={<PageFallback />}>
+      <Routes>
+        <Route path="/embed/:id" element={<EmbedPage />} />
+        <Route element={<Shell />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/algorithm/:id" element={<VisualizerPage />} />
           <Route path="/compare" element={<ComparePage />} />
@@ -48,10 +62,8 @@ export const App = () => {
           <Route path="/playground" element={<PlaygroundPage />} />
           <Route path="/graph-lab" element={<GraphLabPage />} />
           <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </Suspense>
-      <ShortcutsOverlay />
-      <SearchPalette />
-    </AppLayout>
+        </Route>
+      </Routes>
+    </Suspense>
   );
 };

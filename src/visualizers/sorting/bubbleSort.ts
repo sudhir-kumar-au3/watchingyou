@@ -92,6 +92,13 @@ export const bubbleSortModule: AlgorithmModule<SortState, number[]> = {
   tagline: 'Adjacent swaps that float the largest values to the top.',
   accent: '#22d3ee',
   sourceCode: SOURCE,
+  pythonSource: `def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        for j in range(n - 1 - i):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+    return arr`,
   info: {
     explanation:
       'Bubble sort repeatedly steps through the list, compares adjacent elements, and swaps them when they are out of order. After each full pass the next largest value settles into its final position.',

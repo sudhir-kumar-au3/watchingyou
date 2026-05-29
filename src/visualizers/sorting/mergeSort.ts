@@ -105,6 +105,19 @@ export const mergeSortModule: AlgorithmModule<SortState, number[]> = {
   tagline: 'Divide into halves, then merge them back in order.',
   accent: '#60a5fa',
   sourceCode: SOURCE,
+  pythonSource: `def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    out, i, j = [], 0, 0
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            out.append(left[i]); i += 1
+        else:
+            out.append(right[j]); j += 1
+    return out + left[i:] + right[j:]`,
   info: {
     explanation:
       'Merge sort splits the array down to single elements, then repeatedly merges adjacent sorted runs into larger sorted runs. It guarantees O(n log n) time and is stable, at the cost of linear auxiliary space.',

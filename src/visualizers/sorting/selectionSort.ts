@@ -103,6 +103,15 @@ export const selectionSortModule: AlgorithmModule<SortState, number[]> = {
   tagline: 'Repeatedly select the minimum and lock it in place.',
   accent: '#f472b6',
   sourceCode: SOURCE,
+  pythonSource: `def selection_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        m = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[m]:
+                m = j
+        arr[i], arr[m] = arr[m], arr[i]
+    return arr`,
   info: {
     explanation:
       'Selection sort scans the unsorted region for its smallest element and swaps it to the boundary of the sorted region. It performs the fewest swaps of the elementary sorts, at the cost of always scanning the full remainder.',

@@ -69,9 +69,14 @@ Live and growing:
   plays a tone pitched to the value it touches (great on sorting and heaps)
 - **Interview cheat sheet** — a sortable table of every algorithm's Big-O plus
   the classic interview problems each one solves
+- **Search & favorites** — press **/** for a command palette to jump to any
+  algorithm; star favorites and see recently-viewed on the home page
 - **Surprise me** — jump to a random visualizer; **?** opens the shortcuts help
 - **Save image** — export the current visualization (with its step caption) as a
   crisp shareable PNG
+- **Embed** — `#/embed/:id` is a chrome-less player you can iframe into a blog or
+  notes (honours shared `?d`/`?i` state)
+- **Python view** — toggle the source panel between JavaScript and Python (sorts)
 
 Scripts: `npm test` (Vitest suite), `npm run verify` (headless render checks
 across every route — builds the app and asserts bars/nodes/cells/charts render
