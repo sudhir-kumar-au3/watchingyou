@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { usePlaybackHotkeys } from '@/hooks/usePlaybackHotkeys';
 import { AppLayout } from './AppLayout';
+import { ShortcutsOverlay } from '@/features/help/ShortcutsOverlay';
 import { HomePage } from '@/pages/HomePage';
 
 const VisualizerPage = lazy(() =>
@@ -44,6 +45,7 @@ export const App = () => {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
+      <ShortcutsOverlay />
     </AppLayout>
   );
 };

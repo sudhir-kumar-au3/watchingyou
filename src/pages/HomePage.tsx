@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import { Code2, Sparkles, Swords } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Code2, Shuffle, Sparkles, Swords } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { AlgorithmCard } from '@/features/gallery/AlgorithmCard';
 import { allModules } from '@/visualizers/registry';
 import type { AlgorithmCategory } from '@/core/engine/types';
@@ -16,8 +16,15 @@ const CATEGORIES: { key: AlgorithmCategory; title: string }[] = [
   { key: 'backtracking', title: 'Backtracking' },
 ];
 
-export const HomePage = () => (
-  <div className="flex flex-col gap-12">
+export const HomePage = () => {
+  const navigate = useNavigate();
+  const surprise = (): void => {
+    const pick = allModules[Math.floor(Math.random() * allModules.length)];
+    navigate(`/algorithm/${pick.algorithm.id}`);
+  };
+
+  return (
+    <div className="flex flex-col gap-12">
     <section className="flex flex-col items-center gap-6 py-12 text-center">
       <motion.span
         initial={{ opacity: 0, scale: 0.9 }}
@@ -72,6 +79,14 @@ export const HomePage = () => (
           <Swords size={18} />
           Race two algorithms
         </Link>
+        <button
+          type="button"
+          onClick={surprise}
+          className="inline-flex items-center gap-2 rounded-xl glass px-5 py-3 font-medium text-mist transition hover:border-violet/50 hover:text-violet active:scale-95"
+        >
+          <Shuffle size={18} />
+          Surprise me
+        </button>
       </motion.div>
     </section>
 
@@ -102,5 +117,6 @@ export const HomePage = () => (
         </section>
       );
     })}
-  </div>
-);
+    </div>
+  );
+};

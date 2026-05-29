@@ -99,7 +99,7 @@ export const PlaybackControls = () => {
       </div>
 
       <span className="w-full text-center font-mono text-[10px] text-haze/60">
-        space play/pause · ← → step · R restart
+        space play/pause · ← → step · R restart · ? shortcuts
       </span>
     </div>
   );

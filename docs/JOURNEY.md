@@ -6,6 +6,61 @@ contributors inherit the reasoning, not just the result.
 
 ---
 
+## Entry 09 — Making it lovable: sound, a cheat sheet, backtracking, polish
+
+Asked "what would make the masses love it?", I picked four directions and built
+all four — each riding the same frame engine, each shipped as its own
+test-first, verified, screenshotted commit.
+
+### Sound — the viral one
+
+"Sorting with sound" is a genre with tens of millions of views, so it was the
+obvious crowd-pleaser. A framework-free Web Audio `sonifier` plays a short
+triangle tone per touched value (pitch = value → 130–1230 Hz). The trick was
+*where the pitch comes from*: rather than thread audio data through every
+algorithm, a pure `frameTones(state)` duck-types the current frame — sorting
+states expose `array` + touched indices, heap states expose `values` — and
+returns the frequencies. Everything else stays silent. A speaker toggle unlocks
+the `AudioContext` on click (so no autoplay block, no surprise noise) and is off
+by default. `useSonifier` plays on index change. Pure logic is unit-tested; the
+browser-only audio path is not.
+
+### Interview cheat sheet — the practical hook
+
+The LeetCode crowd screenshots complexity tables. `/cheatsheet` builds one from
+the registry: every algorithm's best/average/worst time (colour-coded) and
+space, sortable by any column — sorted by a Big-O *rank*, not by string — plus a
+"shows up as" column mapping each to the interview problems it unlocks. Click a
+row to open the visualizer.
+
+### Backtracking — the mesmerizing one
+
+The `backtracking` category was an empty enum slot; now it holds two of the most
+beloved demos. **N-Queens** places one queen per row, rejecting attacked columns
+in rose and backtracking when a row dead-ends, the first valid board lighting up
+green on an animated chessboard. **Maze solver** is DFS-with-undo on a randomly
+generated *perfect* maze (recursive-backtracker carving guarantees a path), the
+solution trail drawn in lime as it retreats out of every dead end. Both are
+deterministic, both tested for correctness (valid arrangement / contiguous path
+over open cells / unsolvable detection).
+
+### Polish & reach — and a deliberate line
+
+Shipped the safe, high-delight wins: a **`?` keyboard-shortcuts overlay** (with a
+floating help button) and a **"Surprise me"** button that jumps to a random
+visualizer. I *deferred* two items I'd flagged — a **light theme** and **PWA
+install/offline** — on purpose. The light theme isn't a variable swap: ~20
+chrome surfaces and several data-viz renderers (chessboard/maze cells) hardcode
+dark-assuming `bg-black/▢` and `bg-white/▢` tints, so a real light mode means
+tokenizing them and re-verifying every route in *both* themes — a half-done one
+would look broken, which is exactly the unprofessional failure this project
+guards against. PWA needs a base-path-correct manifest + service worker
+validated against the live deploy, and a bad SW can break production. Each
+deserves its own careful pass rather than a rushed one bolted onto this wave.
+Knowing where to stop is part of the craft.
+
+---
+
 ## Entry 08 — Data-structure breadth: AVL, heaps, union-find, hashing
 
 This wave was a single instruction — *"all"* — answering whether to tidy the MST

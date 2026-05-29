@@ -45,9 +45,15 @@ Live and growing:
 - **Dynamic programming** — LCS, edit distance, and 0/1 knapsack as animated
   filling grids with dependency and back-trace highlighting
 
+- **Sound** — toggle the speaker to *hear* algorithms: each comparison/swap
+  plays a tone pitched to the value it touches (great on sorting and heaps)
+- **Interview cheat sheet** — a sortable table of every algorithm's Big-O plus
+  the classic interview problems each one solves
+- **Surprise me** — jump to a random visualizer; **?** opens the shortcuts help
+
 Scripts: `npm test` (Vitest suite), `npm run verify` (headless render checks
 across every route — builds the app and asserts bars/nodes/cells/charts render
-error-free). Playback keyboard shortcuts: space, ←/→, R.
+error-free). Playback keyboard shortcuts: space, ←/→, R, ? (help).
 
 ## Tech
 
