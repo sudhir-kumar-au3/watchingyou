@@ -50,6 +50,8 @@ Live and growing:
   **permutations** (choose → recurse → backtrack)
 - **Greedy** — **activity selection** on an interval timeline and **Huffman
   coding** (merge the rarest symbols into an optimal prefix tree)
+- **Graph Lab** — build your own graph (click to add nodes, click two to
+  connect, drag to arrange) and run any graph algorithm on it
 - **Comparison mode** — race two algorithms on one dataset and one clock
 - **Code playground** — a real step-through JavaScript interpreter: write
   arbitrary JS and watch variables, arrays, the call stack, recursion depth, and

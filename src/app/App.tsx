@@ -21,6 +21,9 @@ const CheatsheetPage = lazy(() =>
 const PlaygroundPage = lazy(() =>
   import('@/pages/PlaygroundPage').then((m) => ({ default: m.PlaygroundPage }))
 );
+const GraphLabPage = lazy(() =>
+  import('@/pages/GraphLabPage').then((m) => ({ default: m.GraphLabPage }))
+);
 const NotFoundPage = lazy(() =>
   import('@/pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage }))
 );
@@ -43,6 +46,7 @@ export const App = () => {
           <Route path="/complexity" element={<ComplexityPage />} />
           <Route path="/cheatsheet" element={<CheatsheetPage />} />
           <Route path="/playground" element={<PlaygroundPage />} />
+          <Route path="/graph-lab" element={<GraphLabPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>

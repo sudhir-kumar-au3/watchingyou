@@ -65,6 +65,12 @@ const serve = () =>
 
 const CHECKS = [
   {
+    route: '/#/graph-lab',
+    name: 'graph lab editor renders',
+    test: (page) =>
+      page.evaluate(() => document.querySelectorAll('svg circle').length > 0),
+  },
+  {
     route: '/#/algorithm/bubble-sort',
     name: 'sorting bars have height',
     test: (page) =>
