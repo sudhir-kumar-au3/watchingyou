@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, Check, Download, Share2 } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { Panel } from '@/components/ui/Panel';
+import { AlgorithmSwitcher } from '@/features/visualizer/AlgorithmSwitcher';
 import { CodePanel } from '@/features/visualizer/CodePanel';
 import { InfoPanel } from '@/features/visualizer/InfoPanel';
 import { MetricsBar } from '@/features/visualizer/MetricsBar';
@@ -12,10 +13,9 @@ import { TimelineScrubber } from '@/features/visualizer/TimelineScrubber';
 import { usePlaybackEngine } from '@/hooks/usePlaybackEngine';
 import { useSonifier } from '@/hooks/useSonifier';
 import { usePlaybackStore } from '@/store/playbackStore';
-import { allModules, getModuleById } from '@/visualizers/registry';
+import { getModuleById } from '@/visualizers/registry';
 import { EMPTY_METRICS } from '@/core/timeline/types';
 import { NotFoundPage } from './NotFoundPage';
-import { cn } from '@/utils/cn';
 import { copyText, decodeState, encodeState } from '@/utils/share';
 import { exportNodeToPng } from '@/utils/exportImage';
 
@@ -146,25 +146,7 @@ export const VisualizerPage = () => {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          {allModules.map((entry) => {
-            const active = entry.algorithm.id === algorithm.id;
-            return (
-              <Link
-                key={entry.algorithm.id}
-                to={`/algorithm/${entry.algorithm.id}`}
-                className={cn(
-                  'rounded-lg px-3.5 py-1.5 text-sm transition',
-                  active
-                    ? 'bg-cyan/15 text-cyan'
-                    : 'glass text-haze hover:text-mist'
-                )}
-              >
-                {entry.algorithm.name}
-              </Link>
-            );
-          })}
-        </div>
+        <AlgorithmSwitcher id={algorithm.id} category={algorithm.category} />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
