@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { cn } from '@/utils/cn';
 
 interface CodePanelProps {
@@ -5,7 +6,14 @@ interface CodePanelProps {
   highlightedLines: number[];
 }
 
-export const CodePanel = ({ sourceCode, highlightedLines }: CodePanelProps) => {
+export const arraysEqual = (a: number[], b: number[]): boolean => {
+  if (a === b) return true;
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i += 1) if (a[i] !== b[i]) return false;
+  return true;
+};
+
+const CodePanelImpl = ({ sourceCode, highlightedLines }: CodePanelProps) => {
   const lines = sourceCode.split('\n');
   const active = new Set(highlightedLines);
 
@@ -19,7 +27,7 @@ export const CodePanel = ({ sourceCode, highlightedLines }: CodePanelProps) => {
             <div
               key={lineNumber}
               className={cn(
-                '-mx-4 flex gap-4 px-4 transition-colors',
+                '-mx-4 flex gap-4 px-4',
                 isActive && 'bg-cyan/15 shadow-[inset_2px_0_0_var(--color-cyan)]'
               )}
             >
@@ -41,3 +49,10 @@ export const CodePanel = ({ sourceCode, highlightedLines }: CodePanelProps) => {
     </pre>
   );
 };
+
+export const CodePanel = memo(
+  CodePanelImpl,
+  (prev, next) =>
+    prev.sourceCode === next.sourceCode &&
+    arraysEqual(prev.highlightedLines, next.highlightedLines)
+);

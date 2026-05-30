@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, Check, Download, Share2, Star } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { Panel } from '@/components/ui/Panel';
@@ -179,20 +178,11 @@ export const VisualizerPage = () => {
             strong
             className="relative h-[440px] overflow-hidden p-5"
           >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={frame?.description ?? 'empty'}
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 8 }}
-                transition={{ duration: 0.2 }}
-                className="absolute left-5 right-5 top-5 z-10"
-              >
-                <span className="inline-block rounded-lg bg-black/40 px-3 py-1.5 font-mono text-xs text-mist backdrop-blur">
-                  {frame?.description ?? 'Preparing timeline…'}
-                </span>
-              </motion.div>
-            </AnimatePresence>
+            <div className="absolute left-5 right-5 top-5 z-10">
+              <span className="inline-block rounded-lg bg-black/70 px-3 py-1.5 font-mono text-xs text-mist">
+                {frame?.description ?? 'Preparing timeline…'}
+              </span>
+            </div>
             <div className="h-full pt-10">
               {frame && <Renderer frame={frame} previous={previous} />}
             </div>

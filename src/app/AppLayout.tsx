@@ -24,7 +24,7 @@ const navClass = ({ isActive }: { isActive: boolean }): string =>
 
 export const AppLayout = ({ children }: AppLayoutProps) => (
   <div className="flex min-h-full flex-col">
-    <header className="sticky top-0 z-30 border-b border-white/5 bg-void/60 backdrop-blur-xl">
+    <header className="sticky top-0 z-30 border-b border-white/5 bg-void/95">
       <div className="mx-auto flex w-full max-w-[1400px] items-center justify-between px-5 py-3.5">
         <Brand />
         <nav className="flex items-center gap-2">
