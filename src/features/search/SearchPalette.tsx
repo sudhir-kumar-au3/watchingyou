@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
 import { allModules } from '@/visualizers/registry';
 import { Badge } from '@/components/ui/Badge';
@@ -20,10 +20,15 @@ const entries = allModules.map((module) => module.algorithm);
 
 export const SearchPalette = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [location.key]);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent): void => {
@@ -78,20 +83,20 @@ export const SearchPalette = () => {
     }
   };
 
+  if (!open) return null;
+
   return (
-    <AnimatePresence>
+    <div>
       {open && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
           onClick={() => setOpen(false)}
           className="fixed inset-0 z-50 flex items-start justify-center bg-void/70 p-4 pt-[12vh] backdrop-blur-sm"
         >
           <motion.div
             initial={{ scale: 0.96, opacity: 0, y: -8 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.97, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 320, damping: 28 }}
             onClick={(event) => event.stopPropagation()}
             className="glass-strong flex w-full max-w-lg flex-col overflow-hidden rounded-2xl"
@@ -146,6 +151,6 @@ export const SearchPalette = () => {
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </div>
   );
 };
